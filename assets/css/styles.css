@@ -1,5 +1,8 @@
 :root {
+  --font-sans: "Montserrat", sans-serif;
+  --font-display: "Playfair Display", serif;
   --color-primary: #133e6b;
+  --color-secondary: #0ea5e9;
   --color-accent: #c5a059;
   --color-bg: #f3f4f6;
   --color-surface: #ffffff;
@@ -29,6 +32,18 @@ html.dark {
   --color-header-bg: rgba(15, 23, 42, 0.95);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 *,
 *::before,
 *::after {
@@ -41,7 +56,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--font-sans);
   background: var(--color-bg);
   color: var(--color-text);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -96,25 +111,29 @@ select:focus-visible {
 
 .brand {
   display: flex;
-  flex-direction: column;
-  line-height: 1;
+  align-items: center;
 }
 
-.brand-title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  letter-spacing: -0.02em;
+.brand-logo-image {
+  display: block;
+  width: clamp(9rem, 24vw, 14rem);
+  height: auto;
 }
 
-.brand-subtitle {
-  margin-top: 0.15rem;
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--color-text-soft);
+.logo-light {
+  display: block;
+}
+
+.logo-dark {
+  display: none;
+}
+
+html.dark .logo-light {
+  display: none;
+}
+
+html.dark .logo-dark {
+  display: block;
 }
 
 .desktop-nav {
@@ -295,7 +314,7 @@ html.dark .hero-wave {
 
 .hero-title {
   margin: 1rem 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-size: 2.25rem;
   line-height: 1.2;
   color: #ffffff;
@@ -376,7 +395,7 @@ html.dark .hero-wave {
 
 .hero-caption-name {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.1rem;
 }
@@ -419,7 +438,7 @@ html.dark .hero-wave {
 
 .highlight-title {
   margin: 0.5rem 0 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-size: 1.25rem;
   color: var(--color-text-strong);
 }
@@ -484,7 +503,7 @@ html.dark .hero-wave {
 
 .about-card-title {
   margin: 0 0 1rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   color: var(--color-primary);
   font-size: 1.6rem;
 }
@@ -510,7 +529,7 @@ html.dark .hero-wave {
 
 .section-title {
   margin: 0.6rem 0 1rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-size: 2rem;
   line-height: 1.25;
   color: var(--color-text-strong);
@@ -644,7 +663,7 @@ html.dark .services::before {
 
 .service-title {
   margin: 1rem 0 0.8rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   color: var(--color-text-strong);
   font-size: 1.6rem;
 }
@@ -693,84 +712,236 @@ html.dark .services::before {
   font-size: 1rem;
 }
 
-.mission {
+.philosophy {
+  padding: 0;
+  background: var(--color-bg);
+}
+
+.philosophy-band {
+  position: relative;
+  overflow: hidden;
   background: var(--color-primary);
+  padding: 6rem 0;
+}
+
+.philosophy-texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+}
+
+.philosophy-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.philosophy-kicker {
+  margin: 0 0 2rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.philosophy-pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.philosophy-pillar {
+  padding: 0 1rem;
+}
+
+.philosophy-pillar + .philosophy-pillar {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.philosophy-pillar-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1.1;
   color: #ffffff;
 }
 
-.mission-layout {
-  display: grid;
+.philosophy-pillar-text {
+  margin: 0;
+  color: #dbeafe;
+  line-height: 1.7;
+}
+
+.reach-band {
+  padding: 5rem 0;
+  background: var(--color-bg);
+}
+
+.reach-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 3rem;
 }
 
-.mission-title {
-  margin: 0 0 1rem;
-  font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
+.reach-map-column,
+.reach-copy {
+  width: 100%;
 }
 
-.mission-quote blockquote {
-  margin: 0;
+.reach-map-card {
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
   padding: 1.5rem;
-  border-left: 4px solid var(--color-accent);
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 0 0.5rem 0.5rem 0;
-  font-size: 1.2rem;
-  line-height: 1.7;
-  font-style: italic;
 }
 
-.mission-author {
-  margin: 1.5rem 0 0;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.8rem;
-  opacity: 0.85;
+.reach-map {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+html.dark .reach-map {
+  background: #111827;
+}
+
+.reach-map img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.reach-map-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(19, 62, 107, 0.2);
+  mix-blend-mode: multiply;
+}
+
+.reach-marker {
+  position: absolute;
+}
+
+.reach-marker-jf {
+  top: 45%;
+  left: 42%;
+}
+
+.reach-marker-tr {
+  top: 57%;
+  left: 56%;
+}
+
+.reach-ping {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  left: 50%;
+  top: 50%;
+  border-radius: 999px;
+  background: var(--color-primary);
+  transform: translate(-50%, -50%);
+  animation: reach-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  opacity: 0.7;
+}
+
+.reach-marker-tr .reach-ping {
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--color-secondary);
+  animation-delay: 0.15s;
+}
+
+.reach-dot {
+  position: relative;
+  z-index: 1;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  border: 2px solid #ffffff;
+  background: var(--color-primary);
+}
+
+.reach-marker-tr .reach-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--color-secondary);
+}
+
+.reach-label {
+  position: absolute;
+  top: 1.3rem;
+  left: -2.1rem;
+  white-space: nowrap;
+  border-radius: 0.3rem;
+  background: var(--color-surface);
+  color: var(--color-text-strong);
+  box-shadow: var(--shadow-sm);
+  padding: 0.2rem 0.45rem;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
-.differentials-title {
-  margin: 0 0 1rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.8rem;
+.reach-marker-tr .reach-label {
+  top: 1.05rem;
+  left: -1.05rem;
 }
 
-.differentials-title .material-icons-outlined {
-  color: var(--color-accent);
+.reach-title {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--color-text-strong);
+  font-size: 2rem;
 }
 
-.differentials-grid {
+.reach-description {
+  margin: 1rem 0 0;
+  color: var(--color-text);
+  line-height: 1.7;
+  font-size: 1.08rem;
+}
+
+.reach-list {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
   display: grid;
-  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
-.diff-card {
-  border-radius: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
-  backdrop-filter: blur(4px);
-  transition: background-color 0.2s ease;
+.reach-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
-.diff-card:hover {
-  background: rgba(255, 255, 255, 0.2);
+.reach-list .material-icons-outlined {
+  margin-top: 0.1rem;
+  color: var(--color-primary);
 }
 
-.diff-card h4 {
-  margin: 0 0 0.35rem;
-  color: var(--color-accent);
-  font-size: 1rem;
+.reach-list li span:last-child {
+  color: var(--color-text);
 }
 
-.diff-card p {
-  margin: 0;
-  color: #e5e7eb;
-  font-size: 0.9rem;
-  line-height: 1.5;
+@keyframes reach-ping {
+  75%,
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
 }
 
 .testimonials {
@@ -859,7 +1030,7 @@ html.dark .services::before {
 
 .contact-title {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-size: 2rem;
 }
 
@@ -1016,21 +1187,17 @@ html.dark .form-input {
 
 .footer-brand {
   display: grid;
-  gap: 0.65rem;
+  gap: 1rem;
 }
 
-.footer-brand-title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
+.footer-brand-logo {
+  width: clamp(7.5rem, 20vw, 11rem);
 }
 
-.footer-brand-subtitle {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #9ca3af;
+.footer-logo-image {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .footer-text {
@@ -1042,7 +1209,7 @@ html.dark .form-input {
 
 .footer-title {
   margin: 0 0 1rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--font-display);
   font-size: 1rem;
 }
 
@@ -1098,14 +1265,21 @@ html.dark .form-input {
   gap: 1rem;
 }
 
+h1,
+h2,
+h3,
+h4,
+.hero-caption-name,
+.section-kicker,
+.footer-title {
+  font-family: var(--font-display);
+}
+
 @media (min-width: 640px) {
   .hero-actions {
     flex-direction: row;
   }
 
-  .differentials-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (min-width: 768px) {
@@ -1181,9 +1355,30 @@ html.dark .form-input {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .mission-layout {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .philosophy-pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .philosophy-pillar {
+    padding: 0 1.5rem;
+  }
+
+  .philosophy-pillar + .philosophy-pillar {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .reach-layout {
+    flex-direction: row;
     align-items: center;
+    gap: 4rem;
+  }
+
+  .reach-map-column,
+  .reach-copy {
+    width: 50%;
   }
 
   .testimonial-grid {
@@ -1223,5 +1418,9 @@ html.dark .form-input {
 
   .hero-title {
     font-size: 3.75rem;
+  }
+
+  .reach-title {
+    font-size: 2.25rem;
   }
 }
