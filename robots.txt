@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pachecoereis.adv.br/sitemap.xml
