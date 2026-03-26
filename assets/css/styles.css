@@ -648,7 +648,33 @@ html.dark .highlight-item-primary {
 }
 
 html.dark .inline-highlight::after {
-  background: rgba(197, 160, 89, 0.28);
+  background: rgba(197, 160, 89, 0.14);
+}
+
+html.dark .about-card {
+  background: linear-gradient(180deg, rgba(24, 36, 56, 0.96), rgba(16, 24, 39, 0.94));
+  border-left-color: rgba(197, 160, 89, 0.8);
+}
+
+html.dark .about-card-title,
+html.dark .section-kicker,
+html.dark .inline-highlight {
+  color: #f3d8a0;
+}
+
+html.dark .about-card p,
+html.dark .section-description {
+  color: #e5edf7;
+}
+
+html.dark .section-title-mark::after {
+  background: rgba(197, 160, 89, 0.16);
+}
+
+html.dark .frame-corner-tl,
+html.dark .frame-corner-br {
+  opacity: 0.92;
+  border-color: #c5a059;
 }
 
 .check-list {
@@ -849,6 +875,36 @@ html.dark .services::before {
   line-height: 1.7;
 }
 
+.services-partnership-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.services-partnership-card {
+  height: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem;
+}
+
+.services-partnership-card-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-text-strong);
+}
+
+.services-partnership-card-text {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
 .philosophy {
   padding: 0;
   background: var(--color-bg);
@@ -943,42 +999,102 @@ html.dark .services::before {
   aspect-ratio: 16 / 9;
   border-radius: 0.75rem;
   overflow: hidden;
-  background: #f3f4f6;
+  background: radial-gradient(circle at top left, rgba(197, 160, 89, 0.18), transparent 35%),
+    linear-gradient(135deg, #edf4fb 0%, #d6e5f4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.4rem 1.5rem 1.7rem;
 }
 
 html.dark .reach-map {
-  background: #111827;
+  background: radial-gradient(circle at top left, rgba(197, 160, 89, 0.12), transparent 35%),
+    linear-gradient(135deg, #172233 0%, #213550 100%);
 }
 
-.reach-map img {
+.reach-map-glow {
   position: absolute;
-  inset: 0;
+  border-radius: 999px;
+  filter: blur(52px);
+  pointer-events: none;
+}
+
+.reach-map-glow-top {
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 7rem;
+  height: 7rem;
+  background: rgba(197, 160, 89, 0.18);
+}
+
+.reach-map-glow-bottom {
+  right: 0.75rem;
+  bottom: 0.4rem;
+  width: 7.5rem;
+  height: 7.5rem;
+  background: rgba(14, 165, 233, 0.1);
+}
+
+.reach-map-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  border: 1px solid rgba(19, 62, 107, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.75rem;
+}
+
+html.dark .reach-map-badge {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.82);
+  color: #f3d8a0;
+}
+
+.reach-brazil-silhouette {
+  position: relative;
+  z-index: 1;
+  width: min(78%, 20.5rem);
+  aspect-ratio: 1 / 1;
+  max-height: 112%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-0.2rem, 0.45rem);
+}
+
+.reach-brazil-svg {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0.3;
-  filter: grayscale(1);
+  filter: drop-shadow(0 18px 30px rgba(19, 62, 107, 0.16));
 }
 
-.reach-map-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(19, 62, 107, 0.2);
-  mix-blend-mode: multiply;
+.reach-brazil-svg path {
+  fill: #c7d8e9;
+  stroke: rgba(19, 62, 107, 0.18);
+  stroke-width: 10;
+  vector-effect: non-scaling-stroke;
+}
+
+html.dark .reach-brazil-svg path {
+  fill: #a8bdd2;
+  stroke: rgba(255, 255, 255, 0.18);
 }
 
 .reach-marker {
   position: absolute;
+  z-index: 3;
 }
 
 .reach-marker-jf {
-  top: 45%;
-  left: 42%;
-}
-
-.reach-marker-tr {
-  top: 57%;
-  left: 56%;
+    top: 66.35%;
+    left: 58.8%;
 }
 
 .reach-ping {
@@ -994,46 +1110,60 @@ html.dark .reach-map {
   opacity: 0.7;
 }
 
-.reach-marker-tr .reach-ping {
-  width: 0.8rem;
-  height: 0.8rem;
-  background: var(--color-secondary);
-  animation-delay: 0.15s;
-}
-
 .reach-dot {
   position: relative;
   z-index: 1;
-  width: 1rem;
-  height: 1rem;
+  width: 1.1rem;
+  height: 1.1rem;
   border-radius: 999px;
-  border: 2px solid #ffffff;
-  background: var(--color-primary);
-}
-
-.reach-marker-tr .reach-dot {
-  width: 0.8rem;
-  height: 0.8rem;
-  background: var(--color-secondary);
+  border: 3px solid rgba(255, 255, 255, 0.95);
+  background: #25d366;
+  box-shadow: 0 0 0 5px rgba(37, 211, 102, 0.16);
 }
 
 .reach-label {
   position: absolute;
-  top: 1.3rem;
-  left: -2.1rem;
+  z-index: 2;
+  top: 1.35rem;
+  left: 118px;
+  transform: translateX(-88%);
   white-space: nowrap;
-  border-radius: 0.3rem;
-  background: var(--color-surface);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
   color: var(--color-text-strong);
   box-shadow: var(--shadow-sm);
-  padding: 0.2rem 0.45rem;
-  font-size: 0.72rem;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
   font-weight: 700;
 }
 
-.reach-marker-tr .reach-label {
-  top: 1.05rem;
-  left: -1.05rem;
+html.dark .reach-label {
+  background: rgba(15, 23, 42, 0.88);
+  color: #ffffff;
+}
+
+@media (max-width: 479px) {
+  .reach-map {
+    padding: 3rem 1rem 1.15rem;
+  }
+
+  .reach-brazil-silhouette {
+    width: min(82%, 16.75rem);
+    max-height: 112%;
+    transform: translate(-0.15rem, 0.3rem);
+  }
+
+  .reach-marker-jf {
+    top: 60.1%;
+    left: 59.6%;
+  }
+
+  .reach-label {
+    transform: translateX(-82%);
+    font-size: 0.64rem;
+    padding: 0.24rem 0.56rem;
+  }
 }
 
 .reach-title {
@@ -1267,6 +1397,20 @@ html.dark .contact-form-panel {
   gap: 1.2rem;
 }
 
+.form-feedback {
+  margin: -0.25rem 0 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.form-feedback.is-error {
+  color: #b91c1c;
+}
+
+html.dark .form-feedback.is-error {
+  color: #fca5a5;
+}
+
 .contact-panel-copy {
   margin-bottom: 1.5rem;
 }
@@ -1341,6 +1485,14 @@ html.dark .form-input {
 .btn-submit {
   width: 100%;
   padding: 0.85rem 1rem;
+  background: #25d366;
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(37, 211, 102, 0.24);
+}
+
+.btn-submit:hover {
+  background: #1fb558;
+  transform: translateY(-2px);
 }
 
 .btn:disabled,
@@ -1501,6 +1653,10 @@ h4,
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .services-partnership-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -1620,9 +1776,16 @@ h4,
     text-align: left;
   }
 
-  .mobile-whatsapp-cta,
   .mobile-nav {
     display: none;
+  }
+
+  .mobile-whatsapp-cta {
+    left: auto;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    padding: 0.95rem 1.15rem;
+    max-width: 18rem;
   }
 }
 
@@ -1666,5 +1829,9 @@ h4,
 
   .philosophy-pillar + .philosophy-pillar {
     border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .services-partnership-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
