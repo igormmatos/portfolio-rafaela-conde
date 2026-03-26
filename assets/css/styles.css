@@ -59,6 +59,7 @@ body {
   font-family: var(--font-sans);
   background: var(--color-bg);
   color: var(--color-text);
+  padding-bottom: 5.5rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -140,6 +141,28 @@ html.dark .logo-dark {
   display: none;
   align-items: center;
   gap: 2rem;
+}
+
+.mobile-nav {
+  display: none;
+  width: min(1280px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 0 0 1rem;
+}
+
+.mobile-nav.is-open {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.mobile-nav-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.mobile-nav-cta {
+  width: 100%;
 }
 
 .nav-link {
@@ -312,6 +335,13 @@ html.dark .hero-wave {
   text-transform: uppercase;
 }
 
+.hero-role {
+  margin: 0.85rem 0 0;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .hero-title {
   margin: 1rem 0;
   font-family: var(--font-display);
@@ -331,6 +361,14 @@ html.dark .hero-wave {
   color: #e5e7eb;
   font-size: 1.1rem;
   line-height: 1.6;
+}
+
+.hero-microcopy {
+  margin: 1rem auto 0;
+  max-width: 38rem;
+  color: #dbeafe;
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 .hero-actions {
@@ -465,6 +503,15 @@ html.dark .highlight-item-primary {
   font-size: 0.85rem;
   line-height: 1.55;
   color: var(--color-text-soft);
+}
+
+.highlights-support {
+  margin: 1.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  color: var(--color-text);
+  line-height: 1.7;
 }
 
 .about {
@@ -668,6 +715,13 @@ html.dark .services::before {
   background: var(--color-primary);
 }
 
+.section-summary {
+  max-width: 46rem;
+  margin: 1rem auto 0;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
 .service-grid {
   display: grid;
   gap: 2rem;
@@ -680,6 +734,11 @@ html.dark .services::before {
   box-shadow: var(--shadow-lg);
   padding: 2rem;
   transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.service-card-primary {
+  border-color: rgba(197, 160, 89, 0.35);
+  background: linear-gradient(180deg, rgba(197, 160, 89, 0.08), rgba(255, 255, 255, 0));
 }
 
 .service-card:hover {
@@ -756,6 +815,38 @@ html.dark .services::before {
 
 .service-link .material-icons-outlined {
   font-size: 1rem;
+}
+
+.services-partnership {
+  margin-top: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  text-align: center;
+}
+
+.services-partnership-kicker {
+  margin: 0;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.services-partnership-title {
+  margin: 0.75rem 0;
+  font-family: var(--font-display);
+  color: var(--color-text-strong);
+  font-size: 1.8rem;
+}
+
+.services-partnership-text {
+  margin: 0 0 1.5rem;
+  color: var(--color-text);
+  line-height: 1.7;
 }
 
 .philosophy {
@@ -1085,6 +1176,12 @@ html.dark .reach-map {
   color: #d1d5db;
 }
 
+.contact-actions {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
 .contact-blocks {
   margin-top: 2rem;
   display: grid;
@@ -1145,6 +1242,17 @@ html.dark .reach-map {
   background: var(--color-accent);
 }
 
+.contact-link {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 0.18rem;
+}
+
+.contact-link-inline {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
 .contact-form-panel {
   padding: 2.5rem;
   background: var(--color-surface);
@@ -1157,6 +1265,23 @@ html.dark .contact-form-panel {
 .contact-form {
   display: grid;
   gap: 1.2rem;
+}
+
+.contact-panel-copy {
+  margin-bottom: 1.5rem;
+}
+
+.contact-panel-title {
+  margin: 0.45rem 0 0;
+  font-family: var(--font-display);
+  color: var(--color-text-strong);
+  font-size: 1.7rem;
+}
+
+.contact-panel-text {
+  margin: 0.75rem 0 0;
+  color: var(--color-text);
+  line-height: 1.7;
 }
 
 .form-grid {
@@ -1218,6 +1343,14 @@ html.dark .form-input {
   padding: 0.85rem 1rem;
 }
 
+.btn:disabled,
+.btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
 .site-footer {
   background: var(--color-footer);
   color: #ffffff;
@@ -1253,6 +1386,13 @@ html.dark .form-input {
   line-height: 1.6;
 }
 
+.footer-support {
+  margin: 0;
+  color: #ffffff;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 .footer-title {
   margin: 0 0 1rem;
   font-family: var(--font-display);
@@ -1275,6 +1415,11 @@ html.dark .form-input {
 
 .footer-link:hover {
   color: #ffffff;
+}
+
+.footer-link-disabled {
+  opacity: 0.75;
+  cursor: default;
 }
 
 .footer-cta {
@@ -1311,6 +1456,28 @@ html.dark .form-input {
   gap: 1rem;
 }
 
+.footer-meta {
+  color: #9ca3af;
+}
+
+.mobile-whatsapp-cta {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1rem;
+  border-radius: 999px;
+  background: #25d366;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: var(--shadow-xl);
+}
+
 h1,
 h2,
 h3,
@@ -1326,6 +1493,10 @@ h4,
     flex-direction: row;
   }
 
+  .contact-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .highlights-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1335,6 +1506,10 @@ h4,
 @media (min-width: 768px) {
   .container {
     width: min(1280px, calc(100% - 3rem));
+  }
+
+  body {
+    padding-bottom: 0;
   }
 
   .desktop-nav {
@@ -1365,6 +1540,11 @@ h4,
     margin-right: 0;
   }
 
+  .hero-microcopy {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   .hero-media {
     justify-content: flex-end;
   }
@@ -1387,7 +1567,7 @@ h4,
   }
 
   .philosophy-pillars {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .philosophy-pillar {
@@ -1398,7 +1578,6 @@ h4,
     margin-top: 0;
     padding-top: 0;
     border-top: 0;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .reach-layout {
@@ -1440,6 +1619,11 @@ h4,
     flex-direction: row;
     text-align: left;
   }
+
+  .mobile-whatsapp-cta,
+  .mobile-nav {
+    display: none;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1474,5 +1658,13 @@ h4,
 
   .reach-title {
     font-size: 2.25rem;
+  }
+
+  .philosophy-pillars {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .philosophy-pillar + .philosophy-pillar {
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
