@@ -3,12 +3,14 @@
   const CTA_TIME_ZONE = "America/Sao_Paulo";
   const CTA_BUSINESS_OPEN_HOUR = 8;
   const CTA_BUSINESS_CLOSE_HOUR = 18;
-  const CTA_PRIMARY_TEXT = "Falar com a Dra. Rafaela";
+  const CTA_PRIMARY_TEXT = "Falar no WhatsApp";
+  const FORM_DEFAULT_URGENCY = "Não informado.";
   const TESTIMONIAL_AUTOPLAY_DELAY = 6000;
   const themeToggleButton = document.getElementById("theme-toggle");
   const mobileNavToggleButton = document.getElementById("mobile-nav-toggle");
   const mobileNav = document.getElementById("mobile-nav");
   const heroSection = document.querySelector(".hero, .page-hero");
+  const contactSection = document.getElementById("contato");
   const mobileWhatsAppCta = document.querySelector(".mobile-whatsapp-cta");
   const mobileWhatsAppCtaStatus = document.getElementById("mobile-whatsapp-cta-status");
   const testimonialCarousel = document.querySelector(".testimonial-carousel");
@@ -45,8 +47,16 @@
   }
 
   if (mobileWhatsAppCta && mobileWhatsAppCtaStatus) {
+    let isHeroVisible = Boolean(heroSection);
+    let isContactVisible = false;
+    let isFormEngaged = false;
+
     const setFloatingCtaVisibility = (shouldShow) => {
       mobileWhatsAppCta.classList.toggle("is-visible", shouldShow);
+    };
+
+    const syncFloatingCtaVisibility = () => {
+      setFloatingCtaVisibility(!isHeroVisible && !isContactVisible && !isFormEngaged);
     };
 
     const getSaoPauloBusinessStatus = () => {
@@ -82,11 +92,13 @@
     mobileWhatsAppCta.setAttribute("aria-label", `${CTA_PRIMARY_TEXT}. ${ctaStatus}.`);
 
     if (!heroSection) {
-      setFloatingCtaVisibility(true);
+      isHeroVisible = false;
+      syncFloatingCtaVisibility();
     } else if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
         ([entry]) => {
-          setFloatingCtaVisibility(!entry.isIntersecting);
+          isHeroVisible = entry.isIntersecting;
+          syncFloatingCtaVisibility();
         },
         {
           threshold: 0,
@@ -94,15 +106,51 @@
       );
 
       observer.observe(heroSection);
+
+      if (contactSection) {
+        const contactObserver = new IntersectionObserver(
+          ([entry]) => {
+            isContactVisible = entry.isIntersecting;
+            syncFloatingCtaVisibility();
+          },
+          {
+            threshold: 0.15,
+          },
+        );
+
+        contactObserver.observe(contactSection);
+      }
     } else {
       const syncFloatingCtaOnScroll = () => {
         const heroBottom = heroSection.getBoundingClientRect().bottom;
-        setFloatingCtaVisibility(heroBottom <= 0);
+        const contactVisible = contactSection
+          ? contactSection.getBoundingClientRect().top < window.innerHeight * 0.85
+          : false;
+
+        isHeroVisible = heroBottom > 0;
+        isContactVisible = contactVisible;
+        syncFloatingCtaVisibility();
       };
 
       syncFloatingCtaOnScroll();
       window.addEventListener("scroll", syncFloatingCtaOnScroll, { passive: true });
       window.addEventListener("resize", syncFloatingCtaOnScroll);
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener("focusin", () => {
+        isFormEngaged = true;
+        syncFloatingCtaVisibility();
+      });
+
+      contactForm.addEventListener("focusout", (event) => {
+        const nextFocusedElement = event.relatedTarget;
+
+        if (!nextFocusedElement || !contactForm.contains(nextFocusedElement)) {
+          isFormEngaged = false;
+          syncFloatingCtaVisibility();
+        }
+      });
     }
   }
 
@@ -276,7 +324,7 @@
   }
 
   if (contactForm && termsCheckbox && formFeedback) {
-    const fieldIds = ["nome", "telefone", "area", "mensagem"];
+    const fieldIds = ["nome", "telefone", "area", "prazo", "mensagem"];
     const fields = Object.fromEntries(
       fieldIds.map((id) => [id, document.getElementById(id)]),
     );
@@ -320,23 +368,24 @@
         return `(${areaCode}) ${digits.slice(2)}`;
       }
 
-      const ninthDigit = digits.slice(2, 3);
-      const firstBlock = digits.slice(3, 7);
-      const secondBlock = digits.slice(7, 11);
+      const phoneDigits = digits.slice(2);
+      const isMobileNumber = phoneDigits.length > 8;
+      const firstBlock = isMobileNumber ? phoneDigits.slice(0, 5) : phoneDigits.slice(0, 4);
+      const secondBlock = isMobileNumber ? phoneDigits.slice(5, 9) : phoneDigits.slice(4, 8);
 
       if (!firstBlock) {
-        return `(${areaCode}) ${ninthDigit}`;
+        return `(${areaCode})`;
       }
 
       if (!secondBlock) {
-        return `(${areaCode}) ${ninthDigit}.${firstBlock}`;
+        return `(${areaCode}) ${firstBlock}`;
       }
 
-      return `(${areaCode}) ${ninthDigit}.${firstBlock}-${secondBlock}`;
+      return `(${areaCode}) ${firstBlock}-${secondBlock}`;
     };
 
     const openWhatsApp = (message) => {
-      const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+      const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
       const popup = window.open(url, "_blank", "noopener,noreferrer");
 
       if (!popup) {
@@ -378,6 +427,7 @@
         nome: fields.nome?.value.trim() ?? "",
         telefone: fields.telefone?.value.trim() ?? "",
         area: fields.area?.value.trim() ?? "",
+        prazo: fields.prazo?.value.trim() ?? "",
         mensagem: fields.mensagem?.value.trim() ?? "",
       };
       const firstMissingField = Object.entries(requiredFieldMessages).find(
@@ -391,7 +441,7 @@
       }
 
       if (values.telefone.replace(/\D/g, "").length !== 11) {
-        showError("Informe o telefone no formato (00) 0.0000-0000.", fields.telefone);
+        showError("Informe o telefone no formato (00) 00000-0000.", fields.telefone);
         return;
       }
 
@@ -403,18 +453,21 @@
         return;
       }
 
-      const detailLines = [];
-
-      detailLines.push(`Área de atuação desejada: ${values.area}`);
-      detailLines.push(`Nome: ${values.nome}`);
-      detailLines.push(`Telefone / WhatsApp: ${values.telefone}`);
-      detailLines.push("Mensagem:");
-      detailLines.push(values.mensagem);
+      const greeting =
+        values.area === "Direito Trabalhista"
+          ? "Olá. Preenchi o formulário do site e gostaria de orientação inicial em Direito Trabalhista."
+          : values.area === "Direito de Trânsito"
+            ? "Olá. Preenchi o formulário do site e gostaria de orientação inicial em Direito de Trânsito."
+            : "Olá. Preenchi o formulário do site e gostaria de orientação inicial.";
 
       const message = [
-        "Olá, Dra. Rafaela! Vi o site e gostaria de orientação inicial.",
+        greeting,
         "",
-        ...detailLines,
+        `Área: ${values.area}`,
+        `Nome: ${values.nome}`,
+        `Telefone / WhatsApp: ${values.telefone}`,
+        `Prazo/urgência: ${values.prazo || FORM_DEFAULT_URGENCY}`,
+        `Resumo: ${values.mensagem}`,
       ].join("\n");
 
       openWhatsApp(message);

@@ -78,6 +78,16 @@ Ele existe para congelar escopo, ordem de execução, critérios de aceite e res
 | `CTA-01` | Padronizar CTAs | Global | Reduzir ruído | Limitar a três padrões principais de CTA | Conversão + Clareza | Baixo | Nenhuma |
 | `CTA-02` | Revisar copy promocional e depoimentos | Global | Remover linguagem arriscada | Eliminar “gratuito”, promessas e depoimentos com ênfase em resultado | Conformidade + Confiança | Baixo | `CONT-01` |
 | `CTA-03` | Encurtar CTA flutuante mobile | Home mobile | Melhorar leitura e toque | Manter o CTA atual com rótulo mais curto e sóbrio | UX + Conversão | Baixo | `CTA-01` |
+| `UXR-01` | Limpar microcopy metalinguística | Home e páginas internas | Trocar textos autorreferentes por linguagem orientada à decisão | Remover menções a “site”, “home”, “bloco” e “página dedicada” fora das páginas legais | Clareza + Conversão | Baixo | Nenhuma |
+| `UXR-02` | Reforçar escaneabilidade | Global | Reduzir densidade de leitura | Manter títulos curtos, um conceito por parágrafo e bullets quando o conteúdo for processo, situação ou orientação prática | UX + Conversão | Baixo | `UXR-01` |
+| `UXR-03` | Refinar a home sem redesign | Home | Enxugar hero, resumos e contato | Revisar microcopy do hero, situações, trânsito, bloco institucional, subtítulo de contato e callout do formulário | Conversão + UX | Baixo | `UXR-01` |
+| `UXR-04` | Refinar páginas internas | `/direito-trabalhista/`, `/direito-de-transito/`, `/sobre/` | Melhorar leitura rápida sem mexer na estrutura | Ajustar apenas textos corridos de hero, CTA final e trechos institucionais | UX + Clareza | Baixo | `UXR-01` |
+| `UXR-05` | Ampliar conforto de toque | Global mobile | Reduzir erro de acionamento | Garantir áreas clicáveis confortáveis em navegação, links principais, CTA flutuante, botão do formulário e contatos | UX mobile | Baixo | Nenhuma |
+| `UXR-06` | Refinar formulário sem mudar campos | Home > Contato | Melhorar clareza e preenchimento | Manter labels acima, remover placeholder redundante, usar ajuda persistente e adicionar `autocomplete` | Conversão + UX | Baixo | `CONT-02` |
+| `UXR-07` | Ajustar largura de leitura | Global desktop | Evitar linhas longas demais | Aplicar largura máxima confortável a textos corridos em hero, sobre, atendimento, institucional, contato e CTAs | UX desktop | Baixo | Nenhuma |
+| `UXR-08` | Aumentar respiro vertical | Global desktop | Elevar percepção premium sem redesenho | Subir espaçamento entre seções, cabeçalhos e blocos no desktop de forma uniforme | UX desktop | Baixo | `UXR-07` |
+| `UXR-09` | Auditar grids existentes | Home e páginas internas | Preservar escaneabilidade em telas largas | Manter 2 colunas em tablet e 3 em desktop onde já fizer sentido, sem transformar listas utilitárias em cards | UX desktop | Baixo | `UXR-07` |
+| `UXR-10` | Registrar fase de refinamento | `docs/plano-execucao-site.md` | Congelar o escopo de UX sem reabrir estratégia | Adicionar fase, IDs, critérios e dependências da rodada de refinamento | Governança | Baixo | Nenhuma |
 
 ## Fases de Implementação
 1. **Fase 1 – Impacto imediato**
@@ -116,6 +126,18 @@ Ele existe para congelar escopo, ordem de execução, critérios de aceite e res
    - `SEO-03`
    - `SEO-05`
 
+5. **Fase 5 – Refinamento UX sem redesign**
+   - `UXR-01`
+   - `UXR-02`
+   - `UXR-03`
+   - `UXR-04`
+   - `UXR-05`
+   - `UXR-06`
+   - `UXR-07`
+   - `UXR-08`
+   - `UXR-09`
+   - `UXR-10`
+
 ## Critérios de Validação
 - Validar em `360x800`, `390x844` e `412x915`
 - WhatsApp encontrável em até 5 segundos
@@ -123,9 +145,12 @@ Ele existe para congelar escopo, ordem de execução, critérios de aceite e res
 - Hero, situações e “como funciona” visíveis nos dois primeiros scrolls
 - Formulário concluível em até 60 segundos com uma mão
 - Nenhuma ocorrência de “gratuito”, promessa de resultado ou linguagem mercantilista
+- Nenhuma copy com “home”, “site”, “bloco” ou “página dedicada” fora das páginas legais
 - Política e termos acessíveis pelo rodapé e pelo formulário
 - Cada página com `title`, `description`, `canonical` e `H1` próprios
 - FAQ visível no HTML
+- CTAs principais acionáveis com conforto em telas `360x800`, `390x844` e `412x915`
+- Textos corridos confortáveis em `1280x800` e `1440x900`, sem coluna estreita demais ou linhas excessivas
 - `sitemap.xml` refletindo todas as rotas finais
 
 ## Dependências
@@ -134,6 +159,7 @@ Ele existe para congelar escopo, ordem de execução, critérios de aceite e res
 - As páginas legais precisam existir antes da substituição dos placeholders do rodapé
 - O `FAQPage` só pode ser aplicado após a publicação do FAQ visível no HTML
 - Os CTAs da home só devem apontar para páginas dedicadas depois da criação dessas rotas
+- A Fase 5 depende da estrutura final do site já publicada, atuando apenas como refinamento de UX sem alterar arquitetura, branding ou rotas
 
 ## Definição de Pronto
 O trabalho só deve ser considerado concluído quando:
