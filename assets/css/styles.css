@@ -2183,3 +2183,239 @@ h4,
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.section-soft {
+  background: var(--color-bg);
+}
+
+.section-contrast {
+  background: var(--color-surface);
+}
+
+.section-header-left {
+  text-align: left;
+}
+
+.section-header-left .section-summary,
+.section-header-left .section-divider {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.section-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
+}
+
+.section-actions-left {
+  justify-content: flex-start;
+}
+
+.topic-grid,
+.step-grid,
+.faq-grid,
+.legal-shell,
+.content-split {
+  display: grid;
+  gap: 1rem;
+}
+
+.topic-card,
+.step-card,
+.detail-card,
+.legal-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.85rem;
+  box-shadow: var(--shadow-sm);
+  padding: 1.35rem;
+}
+
+.topic-card-primary {
+  border-color: rgba(197, 160, 89, 0.35);
+  background: linear-gradient(180deg, rgba(197, 160, 89, 0.08), rgba(255, 255, 255, 0));
+}
+
+.topic-card-title,
+.detail-card-title,
+.cta-band-title {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: 1.2rem;
+}
+
+.topic-card-text,
+.detail-card p,
+.legal-card p {
+  margin: 0.55rem 0 0;
+  color: var(--color-text);
+  line-height: 1.65;
+}
+
+.step-card {
+  position: relative;
+  padding-top: 3.1rem;
+}
+
+.step-card-number {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-card-title {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: 1.05rem;
+}
+
+.step-card-text {
+  margin: 0.55rem 0 0;
+  color: var(--color-text);
+  line-height: 1.65;
+}
+
+.detail-list {
+  margin: 0.8rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--color-text);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.reach-panel,
+.cta-band,
+.institutional-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+}
+
+.reach-panel {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.cta-band {
+  text-align: center;
+}
+
+.cta-band-text {
+  margin: 0.75rem auto 0;
+  max-width: 42rem;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+.form-privacy-note {
+  margin: -0.15rem 0 0;
+  color: var(--color-text-soft);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.form-privacy-note a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.16rem;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, var(--color-hero-from), var(--color-hero-to));
+  color: #ffffff;
+}
+
+.page-hero-content {
+  padding: 4rem 0;
+}
+
+.page-hero .section-kicker,
+.page-hero-title,
+.page-hero-text {
+  color: #ffffff;
+}
+
+.page-hero-title {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  line-height: 1.08;
+  max-width: 18ch;
+}
+
+.page-hero-text {
+  margin: 1rem 0 0;
+  max-width: 42rem;
+  color: #dbeafe;
+  line-height: 1.7;
+}
+
+.faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: 0.85rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 1.15rem;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+
+.faq-item p {
+  margin: 0.9rem 0 0;
+  color: var(--color-text);
+  line-height: 1.65;
+}
+
+.legal-shell {
+  gap: 1.25rem;
+}
+
+.legal-card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--color-text-strong);
+}
+
+@media (min-width: 768px) {
+  .topic-grid,
+  .step-grid,
+  .faq-grid,
+  .legal-shell,
+  .content-split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reach-panel {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .topic-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .step-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

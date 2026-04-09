@@ -3,12 +3,12 @@
   const CTA_TIME_ZONE = "America/Sao_Paulo";
   const CTA_BUSINESS_OPEN_HOUR = 8;
   const CTA_BUSINESS_CLOSE_HOUR = 18;
-  const CTA_PRIMARY_TEXT = "Comece agora seu pré-atendimento via WhatsApp";
+  const CTA_PRIMARY_TEXT = "Falar com a Dra. Rafaela";
   const TESTIMONIAL_AUTOPLAY_DELAY = 6000;
   const themeToggleButton = document.getElementById("theme-toggle");
   const mobileNavToggleButton = document.getElementById("mobile-nav-toggle");
   const mobileNav = document.getElementById("mobile-nav");
-  const heroSection = document.querySelector(".hero");
+  const heroSection = document.querySelector(".hero, .page-hero");
   const mobileWhatsAppCta = document.querySelector(".mobile-whatsapp-cta");
   const mobileWhatsAppCtaStatus = document.getElementById("mobile-whatsapp-cta-status");
   const testimonialCarousel = document.querySelector(".testimonial-carousel");
@@ -276,7 +276,7 @@
   }
 
   if (contactForm && termsCheckbox && formFeedback) {
-    const fieldIds = ["nome", "telefone", "email", "cidade", "area", "mensagem"];
+    const fieldIds = ["nome", "telefone", "area", "mensagem"];
     const fields = Object.fromEntries(
       fieldIds.map((id) => [id, document.getElementById(id)]),
     );
@@ -335,8 +335,6 @@
       return `(${areaCode}) ${ninthDigit}.${firstBlock}-${secondBlock}`;
     };
 
-    const formatEmailValue = (value) => value.replace(/\s+/g, "").toLowerCase();
-
     const openWhatsApp = (message) => {
       const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
       const popup = window.open(url, "_blank", "noopener,noreferrer");
@@ -349,12 +347,6 @@
     if (fields.telefone) {
       fields.telefone.addEventListener("input", () => {
         fields.telefone.value = formatPhoneNumber(fields.telefone.value);
-      });
-    }
-
-    if (fields.email) {
-      fields.email.addEventListener("input", () => {
-        fields.email.value = formatEmailValue(fields.email.value);
       });
     }
 
@@ -385,8 +377,6 @@
       const values = {
         nome: fields.nome?.value.trim() ?? "",
         telefone: fields.telefone?.value.trim() ?? "",
-        email: fields.email?.value.trim() ?? "",
-        cidade: fields.cidade?.value.trim() ?? "",
         area: fields.area?.value.trim() ?? "",
         mensagem: fields.mensagem?.value.trim() ?? "",
       };
@@ -405,11 +395,6 @@
         return;
       }
 
-      if (fields.email && values.email && !fields.email.checkValidity()) {
-        showError("Informe um e-mail válido ou deixe esse campo em branco.", fields.email);
-        return;
-      }
-
       if (!termsCheckbox.checked) {
         showError(
           "Aceite a política de privacidade e autorize o contato via WhatsApp para enviar sua mensagem.",
@@ -423,13 +408,14 @@
       detailLines.push(`Área de atuação desejada: ${values.area}`);
       detailLines.push(`Nome: ${values.nome}`);
       detailLines.push(`Telefone / WhatsApp: ${values.telefone}`);
-      if (values.email) detailLines.push(`E-mail: ${values.email}`);
-      if (values.cidade) detailLines.push(`Cidade/UF: ${values.cidade}`);
       detailLines.push("Mensagem:");
       detailLines.push(values.mensagem);
 
-      const message = ["Olá, Dra. Rafaela! Você poderia me ajudar com meu caso?", "", ...detailLines]
-        .join("\n");
+      const message = [
+        "Olá, Dra. Rafaela! Vi o site e gostaria de orientação inicial.",
+        "",
+        ...detailLines,
+      ].join("\n");
 
       openWhatsApp(message);
     });
