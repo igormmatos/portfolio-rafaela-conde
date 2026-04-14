@@ -28,9 +28,9 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
       rel="stylesheet"
     />
-    <link href="../assets/css/styles.css?v=20260409-3" rel="stylesheet" />
+    <link href="../assets/css/styles.css?v=20260409-16" rel="stylesheet" />
   </head>
-  <body>
+  <body class="page-about">
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="../" aria-label="Voltar para a página inicial">
@@ -41,7 +41,7 @@
         <nav aria-label="Navegação principal" class="desktop-nav">
           <a class="nav-link" href="../direito-trabalhista/">Trabalhista</a>
           <a class="nav-link" href="../direito-de-transito/">Trânsito</a>
-          <a class="nav-link" href="../sobre/">Sobre</a>
+          <a aria-current="page" class="nav-link" href="../sobre/">Sobre</a>
           <a class="nav-link" href="../#contato">Contato</a>
           <button aria-label="Alternar tema" class="theme-toggle" id="theme-toggle" type="button">
             <span class="material-icons-outlined theme-icon theme-icon-dark">dark_mode</span>
@@ -55,73 +55,193 @@
       <nav aria-label="Navegação mobile" class="mobile-nav" id="mobile-nav">
         <a class="mobile-nav-link" href="../direito-trabalhista/">Trabalhista</a>
         <a class="mobile-nav-link" href="../direito-de-transito/">Trânsito</a>
-        <a class="mobile-nav-link" href="../sobre/">Sobre</a>
+        <a aria-current="page" class="mobile-nav-link" href="../sobre/">Sobre</a>
         <a class="mobile-nav-link" href="../#contato">Contato</a>
       </nav>
     </header>
 
     <main>
-      <section class="page-hero">
+      <section class="page-hero page-hero-about" aria-labelledby="sobre-title">
         <div class="container page-hero-content">
-          <p class="section-kicker">Sobre a Advogada</p>
-          <h1 class="page-hero-title">Clareza no atendimento, proteção jurídica e escuta real</h1>
-          <p class="page-hero-text">
-            A atuação é guiada por técnica, linguagem objetiva e leitura individualizada de cada
-            situação. O foco principal está em Direito Trabalhista, com encaminhamento responsável
-            desde o primeiro contato e suporte institucional como rede técnica de apoio quando
-            necessário.
-          </p>
+          <div class="page-hero-shell">
+            <div class="page-hero-copy">
+              <p class="section-kicker">Sobre a Advogada</p>
+              <h1 class="page-hero-title" id="sobre-title">
+                Clareza no atendimento, proteção jurídica e escuta real
+              </h1>
+            </div>
+            <div class="page-hero-media">
+              <div class="page-hero-portrait">
+                <img
+                  alt="Rafaela Condé em retrato institucional"
+                  decoding="async"
+                  fetchpriority="high"
+                  height="5760"
+                  src="../assets/src/rafaela-perfil.png"
+                  width="3840"
+                />
+              </div>
+            </div>
+          </div>
+          <a class="page-about-hero-continuation" href="#trajetoria" aria-label="Ir para a próxima seção">
+            <span aria-hidden="true" class="material-icons-outlined">keyboard_arrow_down</span>
+          </a>
         </div>
       </section>
 
-      <section class="section about">
+      <section class="section about about-page" id="trajetoria" aria-labelledby="trajetoria-title">
         <div class="container about-layout">
-          <div class="about-card-frame">
-            <div class="frame-corner frame-corner-tl"></div>
-            <article class="about-card">
-              <h2 class="about-card-title">Trajetória profissional</h2>
-              <p>
-                Formada em Direito pelas Faculdades Integradas Vianna Júnior, Rafaela Condé atua
-                com foco em Direito Trabalhista, aliando técnica, clareza e leitura cuidadosa de
-                cada caso.
-              </p>
-              <p>
-                A prática profissional é orientada por escuta real, organização da informação e
-                encaminhamento responsável, com suporte institucional quando a demanda exige atuação
-                complementar.
-              </p>
-            </article>
-            <div class="frame-corner frame-corner-br"></div>
-          </div>
-          <div class="about-content">
-            <p class="section-kicker">Forma de Atuação</p>
-            <h2 class="section-title">Atendimento objetivo, sóbrio e acessível</h2>
+          <div class="about-content about-page-content">
+            <div class="about-page-heading">
+              <p class="section-kicker">Forma de Atuação</p>
+              <h2 class="section-title" id="trajetoria-title">
+                Atendimento guiado por técnica, clareza e leitura individualizada.
+              </h2>
+            </div>
             <div class="about-rich-text">
               <p class="section-description">
-                O atendimento busca tornar o caso compreensível desde o início, com explicação
-                clara sobre cenário, riscos e próximos passos.
+                O atendimento conduzido por Rafaela Condé é pautado em <strong>clareza,
+                acolhimento e proteção jurídica</strong>, para que cada pessoa compreenda o
+                cenário do caso e tome decisões com segurança.
               </p>
               <p class="section-description">
-                O contato pode acontecer presencialmente em Juiz de Fora/MG ou on-line em todo o
-                Brasil, mantendo o mesmo padrão de cuidado, sigilo e organização.
+                A atuação principal é em <strong>Direito Trabalhista</strong>, com comunicação
+                objetiva sobre fatos, riscos e próximos passos desde o primeiro contato.
               </p>
               <p class="section-description">
-                Quando a demanda exige atuação complementar, o suporte técnico do escritório
-                Pacheco &amp; Reis Advogados funciona como rede técnica de apoio, sem
-                descaracterizar a condução responsável do atendimento.
+                Quando a demanda exige atuação complementar, o suporte institucional do
+                <strong>Pacheco &amp; Reis Advogados</strong> fortalece a análise e a condução
+                responsável do atendimento.
               </p>
+            </div>
+            <div class="about-page-benefits">
+              <ul class="check-list" aria-label="Diferenciais de atendimento">
+                <li>
+                  <span aria-hidden="true" class="material-icons-outlined">done</span>
+                  <span>
+                    Atendimento em Direito Trabalhista para trabalhadores e empresas, com leitura
+                    cuidadosa de fatos e documentos
+                  </span>
+                </li>
+                <li>
+                  <span aria-hidden="true" class="material-icons-outlined">done</span>
+                  <span>Orientação clara sobre cenário, riscos e próximos passos</span>
+                </li>
+                <li>
+                  <span aria-hidden="true" class="material-icons-outlined">done</span>
+                  <span>Atendimento presencial em Juiz de Fora/MG e on-line em todo o Brasil</span>
+                </li>
+                <li>
+                  <span aria-hidden="true" class="material-icons-outlined">done</span>
+                  <span>Apoio complementar em Direito de Trânsito quando aplicável</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="about-card-frame">
+            <article class="about-card">
+              <p class="section-kicker about-card-kicker">Trajetória</p>
+              <h3 class="about-card-title">Trajetória profissional</h3>
+              <p>
+                Formada em Direito pelas Faculdades Integradas Vianna Júnior, Rafaela Condé atua
+                com foco em <strong>Direito Trabalhista</strong>, aliando técnica, escuta real e
+                leitura individualizada de cada caso.
+              </p>
+              <p>
+                Integrante da equipe <strong>Pacheco &amp; Reis Advogados</strong>, exerce atuação
+                colaborativa em demandas consultivas e contenciosas, com apoio institucional quando
+                a complexidade do caso exige uma atuação complementar.
+              </p>
+              <p>
+                Sua prática é orientada por <strong>segurança jurídica, comunicação objetiva e
+                proximidade no atendimento</strong>, preservando uma condução sóbria e responsável
+                em todas as etapas.
+              </p>
+              <div class="about-card-highlights" aria-label="Resumo da atuação">
+                <div class="about-card-highlight">
+                  <span class="about-card-highlight-label">Atuação principal</span>
+                  <p>
+                    Direito Trabalhista para trabalhadores e empresas, com análise cuidadosa dos
+                    fatos e dos documentos essenciais.
+                  </p>
+                </div>
+                <div class="about-card-highlight">
+                  <span class="about-card-highlight-label">Atuação complementar</span>
+                  <p>
+                    Direito de Trânsito em demandas específicas, com triagem objetiva de
+                    documentos, prazos e histórico do caso.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section philosophy" aria-labelledby="filosofia-title">
+        <div class="philosophy-band">
+          <div aria-hidden="true" class="philosophy-texture"></div>
+          <div class="container philosophy-inner">
+            <div class="philosophy-heading">
+              <p class="philosophy-kicker">Filosofia Profissional</p>
+              <h2 class="section-title philosophy-title" id="filosofia-title">
+                Pilares que orientam cada atendimento
+              </h2>
+              <p class="section-description philosophy-summary">
+                A condução do caso combina rigor técnico, comunicação objetiva e atenção real ao
+                contexto de cada pessoa ou empresa.
+              </p>
+            </div>
+            <div class="philosophy-pillars">
+              <article class="philosophy-pillar">
+                <span aria-hidden="true" class="philosophy-pillar-number">01</span>
+                <h3 class="philosophy-pillar-title">Ética</h3>
+                <p class="philosophy-pillar-text">
+                  Integridade em cada decisão e compromisso com o que é correto em toda orientação
+                  jurídica.
+                </p>
+              </article>
+              <article class="philosophy-pillar">
+                <span aria-hidden="true" class="philosophy-pillar-number">02</span>
+                <h3 class="philosophy-pillar-title">Transparência</h3>
+                <p class="philosophy-pillar-text">
+                  Comunicação clara sobre riscos, possibilidades e etapas de cada processo.
+                </p>
+              </article>
+              <article class="philosophy-pillar">
+                <span aria-hidden="true" class="philosophy-pillar-number">03</span>
+                <h3 class="philosophy-pillar-title">Humanização</h3>
+                <p class="philosophy-pillar-text">
+                  Toda causa envolve uma pessoa, e ela continua sendo a prioridade em cada
+                  atendimento.
+                </p>
+              </article>
+              <article class="philosophy-pillar">
+                <span aria-hidden="true" class="philosophy-pillar-number">04</span>
+                <h3 class="philosophy-pillar-title">Colaboração</h3>
+                <p class="philosophy-pillar-text">
+                  Atuação conjunta com o time Pacheco &amp; Reis para fortalecer análise,
+                  estratégia e condução responsável do caso.
+                </p>
+              </article>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section section-soft">
+      <section class="section section-soft about-page-cta-section">
         <div class="container">
           <div class="cta-band">
-            <h2 class="cta-band-title">Precisa iniciar o atendimento?</h2>
+            <h2 class="cta-band-title">Precisa de atendimento?</h2>
             <p class="cta-band-text">
-              O contato pode ser feito por WhatsApp ou pelo formulário da home, com descrição
-              objetiva da situação.
+              O contato inicial pode ser feito pelo WhatsApp, de forma rápida e prática.
+            </p>
+            <p class="cta-band-text">
+              Basta enviar uma breve descrição da situação e, se houver, informar o prazo ou
+              urgência.
+            </p>
+            <p class="cta-band-text">
+              Se preferir, o formulário da página inicial também está disponível.
             </p>
             <div class="section-actions">
               <a
@@ -130,7 +250,7 @@
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Falar com a Dra. Rafaela
+                Iniciar atendimento pelo WhatsApp
               </a>
               <a class="hero-secondary-cta" href="../#contato">Usar formulário de contato</a>
             </div>
@@ -147,7 +267,13 @@
               <img alt="" aria-hidden="true" class="footer-logo-image" src="../assets/src/min-logo-center-dark-rc-no-bg.png" />
               <span class="sr-only">Rafaela Condé | Pacheco &amp; Reis Advogados</span>
             </div>
-            <p class="footer-text">Atendimento presencial em Juiz de Fora/MG e on-line em todo o Brasil.</p>
+            <p class="footer-text">
+              Advogada com atuação principal em Direito Trabalhista e atendimento complementar em
+              Direito de Trânsito.
+            </p>
+            <p class="footer-support">
+              Atendimento presencial em Juiz de Fora/MG e on-line em todo o Brasil.
+            </p>
           </div>
           <div class="footer-column">
             <h3 class="footer-title">Navegação</h3>
@@ -156,19 +282,50 @@
               <li><a class="footer-link" href="../direito-trabalhista/">Trabalhista</a></li>
               <li><a class="footer-link" href="../direito-de-transito/">Trânsito</a></li>
               <li><a class="footer-link" href="../sobre/">Sobre</a></li>
+              <li><a class="footer-link" href="../#contato">Contato</a></li>
             </ul>
           </div>
           <div class="footer-column">
             <h3 class="footer-title">Institucional</h3>
             <ul class="footer-list">
+              <li>
+                <a
+                  class="footer-link"
+                  href="https://pachecoereis.adv.br/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Pacheco &amp; Reis Advogados (institucional)
+                </a>
+              </li>
               <li><a class="footer-link" href="../politica-de-privacidade/">Política de Privacidade</a></li>
               <li><a class="footer-link" href="../termos-de-uso/">Termos de Uso</a></li>
             </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Contato Rápido</h3>
+            <a
+              class="footer-cta"
+              href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              WhatsApp: (32) 99834-2555
+            </a>
+            <a class="footer-cta" href="mailto:rafaela@pachecoereis.adv.br">
+              E-mail: rafaela@pachecoereis.adv.br
+            </a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 Rafaela Condé | Pacheco &amp; Reis Advogados - Todos os direitos reservados.</p>
+          <div class="footer-meta">
+            <span>Rua Batista de Oliveira, 1164 - Sala 203, Juiz de Fora - MG</span>
           </div>
         </div>
       </div>
     </footer>
 
-    <script src="../assets/js/main.js?v=20260409-3"></script>
+    <script src="../assets/js/main.js?v=20260409-4"></script>
   </body>
 </html>

@@ -3,9 +3,10 @@
   const CTA_TIME_ZONE = "America/Sao_Paulo";
   const CTA_BUSINESS_OPEN_HOUR = 8;
   const CTA_BUSINESS_CLOSE_HOUR = 18;
-  const CTA_PRIMARY_TEXT = "Falar no WhatsApp";
+  const CTA_PRIMARY_TEXT = "Falar no WhatsApp com a Dra. Rafaela";
   const FORM_DEFAULT_URGENCY = "Não informado.";
   const TESTIMONIAL_AUTOPLAY_DELAY = 6000;
+  const TESTIMONIAL_TEXT_CLAMP_LINES = 3;
   const themeToggleButton = document.getElementById("theme-toggle");
   const mobileNavToggleButton = document.getElementById("mobile-nav-toggle");
   const mobileNav = document.getElementById("mobile-nav");
@@ -46,7 +47,7 @@
     });
   }
 
-  if (mobileWhatsAppCta && mobileWhatsAppCtaStatus) {
+  if (mobileWhatsAppCta) {
     let isHeroVisible = Boolean(heroSection);
     let isContactVisible = false;
     let isFormEngaged = false;
@@ -88,7 +89,10 @@
     };
 
     const ctaStatus = getSaoPauloBusinessStatus();
-    mobileWhatsAppCtaStatus.textContent = ctaStatus;
+    if (mobileWhatsAppCtaStatus) {
+      mobileWhatsAppCtaStatus.textContent = ctaStatus;
+    }
+
     mobileWhatsAppCta.setAttribute("aria-label", `${CTA_PRIMARY_TEXT}. ${ctaStatus}.`);
 
     if (!heroSection) {
@@ -165,6 +169,7 @@
     let slidesPerView = 1;
     let currentPage = 0;
     let totalPages = 0;
+    let pageStartIndices = [0];
     let autoplayIntervalId = 0;
     let autoplayResumeTimeoutId = 0;
 
@@ -254,10 +259,121 @@
       });
     };
 
+    const getPageStartIndices = (cardsLength, visibleSlides) => {
+      if (cardsLength <= visibleSlides) {
+        return [0];
+      }
+
+      const starts = [];
+      const lastValidStartIndex = cardsLength - visibleSlides;
+
+      for (
+        let startIndex = 0;
+        startIndex <= lastValidStartIndex;
+        startIndex += visibleSlides
+      ) {
+        starts.push(startIndex);
+      }
+
+      if (starts[starts.length - 1] !== lastValidStartIndex) {
+        starts.push(lastValidStartIndex);
+      }
+
+      return starts;
+    };
+
+    const getNearestPageIndex = (firstVisibleIndex) => {
+      if (!pageStartIndices.length) {
+        return 0;
+      }
+
+      let nearestPageIndex = 0;
+      let smallestDistance = Number.POSITIVE_INFINITY;
+
+      pageStartIndices.forEach((pageStartIndex, pageIndex) => {
+        const distance = Math.abs(pageStartIndex - firstVisibleIndex);
+
+        if (distance < smallestDistance) {
+          smallestDistance = distance;
+          nearestPageIndex = pageIndex;
+        }
+      });
+
+      return nearestPageIndex;
+    };
+
+    const getTestimonialLineHeight = (text) => {
+      const computedStyle = window.getComputedStyle(text);
+      const parsedLineHeight = Number.parseFloat(computedStyle.lineHeight);
+
+      if (Number.isFinite(parsedLineHeight)) {
+        return parsedLineHeight;
+      }
+
+      const parsedFontSize = Number.parseFloat(computedStyle.fontSize);
+
+      if (Number.isFinite(parsedFontSize)) {
+        return parsedFontSize * 1.75;
+      }
+
+      return 24;
+    };
+
+    const hasHiddenTestimonialText = (text) => {
+      const lineHeight = getTestimonialLineHeight(text);
+      const clampHeight = lineHeight * TESTIMONIAL_TEXT_CLAMP_LINES;
+      const estimatedLineCount = text.scrollHeight / lineHeight;
+
+      return (
+        estimatedLineCount > TESTIMONIAL_TEXT_CLAMP_LINES + 0.1 &&
+        text.scrollHeight > clampHeight + 1
+      );
+    };
+
+    const syncTestimonialToggle = (card, index) => {
+      const text = card.querySelector(".testimonial-text");
+      const toggle = card.querySelector(".testimonial-toggle");
+
+      if (!text || !toggle) {
+        return;
+      }
+
+      if (!text.id) {
+        text.id = `testimonial-text-${index + 1}`;
+      }
+
+      toggle.setAttribute("aria-controls", text.id);
+
+      const hasOverflow = hasHiddenTestimonialText(text);
+
+      if (!hasOverflow) {
+        card.classList.remove("is-expanded");
+        card.classList.remove("has-hidden-content");
+        toggle.hidden = true;
+        toggle.textContent = "Ver mais";
+        toggle.setAttribute("aria-expanded", "false");
+        return;
+      }
+
+      const isExpanded = card.classList.contains("is-expanded");
+
+      card.classList.toggle("has-hidden-content", !isExpanded);
+      toggle.hidden = false;
+      toggle.textContent = isExpanded ? "Ver menos" : "Ver mais";
+      toggle.setAttribute("aria-expanded", String(isExpanded));
+    };
+
+    const syncTestimonialToggles = () => {
+      testimonialCards.forEach((card, index) => {
+        syncTestimonialToggle(card, index);
+      });
+    };
+
     const updateTrackPosition = () => {
       testimonialCarousel.style.setProperty("--testimonial-slides-per-view", String(slidesPerView));
+      syncTestimonialToggles();
 
-      const firstVisibleIndex = currentPage * slidesPerView;
+      const firstVisibleIndex = pageStartIndices[currentPage] ?? 0;
       const firstVisibleCard = testimonialCards[firstVisibleIndex];
       const offset = firstVisibleCard?.offsetLeft ?? 0;
 
@@ -275,15 +391,30 @@
     };
 
     const syncCarouselLayout = () => {
-      const previousFirstVisibleIndex = currentPage * slidesPerView;
+      const previousFirstVisibleIndex = pageStartIndices[currentPage] ?? 0;
 
       slidesPerView = getSlidesPerView();
-      totalPages = Math.ceil(testimonialCards.length / slidesPerView);
-      currentPage = Math.min(Math.floor(previousFirstVisibleIndex / slidesPerView), totalPages - 1);
+      pageStartIndices = getPageStartIndices(testimonialCards.length, slidesPerView);
+      totalPages = pageStartIndices.length;
+      currentPage = getNearestPageIndex(previousFirstVisibleIndex);
 
       buildDots();
       updateTrackPosition();
     };
+
+    testimonialCards.forEach((card, index) => {
+      const toggle = card.querySelector(".testimonial-toggle");
+
+      if (!toggle) {
+        return;
+      }
+
+      toggle.addEventListener("click", () => {
+        card.classList.toggle("is-expanded");
+        syncTestimonialToggle(card, index);
+        updateTrackPosition();
+      });
+    });
 
     testimonialPrevButton.addEventListener("click", () => {
       goToPage(currentPage - 1);
@@ -318,6 +449,18 @@
     window.addEventListener("resize", () => {
       syncCarouselLayout();
     });
+
+    window.addEventListener("load", () => {
+      syncCarouselLayout();
+    });
+
+    if (document.fonts?.ready) {
+      document.fonts.ready
+        .then(() => {
+          syncCarouselLayout();
+        })
+        .catch(() => {});
+    }
 
     syncCarouselLayout();
     startAutoplay();
