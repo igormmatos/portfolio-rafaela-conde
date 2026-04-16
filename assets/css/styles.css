@@ -5040,7 +5040,7 @@ html.dark .page-service .faq-toggle {
   position: relative;
   z-index: 1;
   gap: clamp(0.75rem, 2vw, 1.25rem);
-  padding-top: 0;
+  padding-top: clamp(1rem, 4vw, 1.5rem);
   padding-bottom: 1.5rem;
 }
 
@@ -5117,7 +5117,31 @@ html.dark .page-service .faq-toggle {
 }
 
 .page-about .page-about-hero-actions .page-service-secondary-cta {
+  min-height: 2.9rem;
+  padding: 0.72rem 0.95rem;
   justify-content: flex-start;
+  border: 1px solid rgba(232, 238, 248, 0.14);
+  border-radius: 0.78rem;
+  background: linear-gradient(180deg, rgba(233, 241, 252, 0.08), rgba(167, 192, 221, 0.07));
+  color: #f2f7ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.page-about .page-about-hero-actions .page-service-secondary-cta::after {
+  display: none;
+}
+
+.page-about .page-about-hero-actions .page-service-secondary-cta:hover,
+.page-about .page-about-hero-actions .page-service-secondary-cta:focus-visible {
+  justify-content: flex-start;
+  background: linear-gradient(180deg, rgba(233, 241, 252, 0.12), rgba(167, 192, 221, 0.1));
+  border-color: rgba(232, 238, 248, 0.22);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.page-about .page-about-hero-actions .page-service-secondary-cta .material-icons-outlined {
+  transform: none;
 }
 
 .page-about .page-hero-about .page-hero-media {
@@ -5275,85 +5299,54 @@ html.dark .page-service .faq-toggle {
 .page-about .about-page {
   padding-top: 4.25rem;
   padding-bottom: 4.5rem;
-  background: linear-gradient(180deg, rgba(243, 244, 246, 0), #f4f6f9 18%, #f7f8fa 100%);
+  background: linear-gradient(180deg, #f2f4f7 0%, #f5f6f8 18%, #f7f8fa 100%);
 }
 
 .page-about .about-page .about-layout {
-  gap: 2rem;
+  gap: 2.1rem;
   align-items: start;
 }
 
 .page-about .about-page .about-page-content {
-  gap: 1.5rem;
+  display: grid;
+  gap: 1.4rem;
 }
 
 .page-about .about-page-heading {
   display: grid;
-  gap: 0.85rem;
+  gap: 0.75rem;
   max-width: 36rem;
 }
 
 .page-about .about-page .section-title {
   margin: 0;
-  font-size: clamp(2rem, 8vw, 3rem);
+  font-size: clamp(2rem, 8vw, 2.85rem);
   line-height: 1.14;
 }
 
-.page-about .about-page .about-rich-text {
-  gap: 1rem;
-}
-
 .page-about .about-page .section-description {
-  max-width: 34rem;
-  font-size: 0.99rem;
-  line-height: 1.72;
+  max-width: 30rem;
+  font-size: 1rem;
+  line-height: 1.68;
 }
 
 .page-about .about-page-signals {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
-  max-width: 34rem;
+  max-width: 36rem;
 }
 
 .page-about .about-page .about-page-benefits {
-  margin-top: 0.1rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid rgba(19, 62, 107, 0.12);
+  display: grid;
+  gap: 1rem;
 }
 
 .page-about .about-page-subtitle {
   margin: 0;
   color: var(--color-text-strong);
-  font-size: 1.05rem;
-  line-height: 1.35;
-}
-
-.page-about .about-manifesto-list {
-  margin: 0.85rem 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0.9rem;
-}
-
-.page-about .about-manifesto-list li {
-  position: relative;
-  padding-left: 1.1rem;
-  color: var(--color-text);
-  font-size: 0.97rem;
-  line-height: 1.7;
-}
-
-.page-about .about-manifesto-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.72rem;
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 999px;
-  background: var(--color-accent);
+  font-size: 1.08rem;
+  line-height: 1.32;
 }
 
 .page-about .about-page .about-card-frame {
@@ -5362,24 +5355,32 @@ html.dark .page-service .faq-toggle {
 
 .page-about .about-page .about-card {
   border: 1px solid rgba(19, 62, 107, 0.08);
-  border-left: 0;
-  border-radius: 1.2rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
-  padding: 1.85rem 1.65rem;
+  border-left: 1px solid rgba(19, 62, 107, 0.08);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.045);
+  padding: 1.9rem 1.7rem;
   transition:
     transform 420ms ease,
     box-shadow 420ms ease;
 }
 
 .page-about .about-page .about-card-kicker {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.7rem;
   color: var(--color-accent);
 }
 
 .page-about .about-page .about-card-title {
   margin: 0;
-  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-size: clamp(1.55rem, 6vw, 1.95rem);
+}
+
+.page-about .about-page .about-card .about-card-summary {
+  margin: 0.7rem 0 0;
+  max-width: 24rem;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
 .page-about .about-page .about-card p {
@@ -5389,24 +5390,24 @@ html.dark .page-service .faq-toggle {
 }
 
 .page-about .about-card-sections {
-  margin-top: 1.15rem;
+  margin-top: 1.35rem;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.15rem;
 }
 
 .page-about .about-card-section {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.6rem;
 }
 
 .page-about .about-card-section + .about-card-section {
-  padding-top: 1.15rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(19, 62, 107, 0.12);
 }
 
 .page-about .about-card-list {
   margin: 0;
-  padding-left: 1.1rem;
+  padding-left: 1rem;
   display: grid;
   gap: 0.55rem;
 }
@@ -5414,7 +5415,7 @@ html.dark .page-service .faq-toggle {
 .page-about .about-card-list li {
   color: var(--color-text);
   font-size: 0.95rem;
-  line-height: 1.65;
+  line-height: 1.62;
 }
 
 .page-about .about-card-highlight-label {
@@ -5423,6 +5424,64 @@ html.dark .page-service .faq-toggle {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+}
+
+.page-about .about-steps {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.page-about .about-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem 1rem;
+  align-items: start;
+  padding: 1.1rem 1.05rem;
+  border: 1px solid rgba(19, 62, 107, 0.08);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03);
+  transition:
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out,
+    background-color 150ms ease-out;
+}
+
+.page-about .about-step:hover,
+.page-about .about-step:focus-within {
+  transform: translateY(-2px);
+  background: #eef1f5;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.055);
+}
+
+.page-about .about-step-number {
+  display: inline-block;
+  min-width: 2.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 10vw, 3.2rem);
+  line-height: 0.9;
+  color: var(--color-accent-hero);
+}
+
+.page-about .about-step-body {
+  display: grid;
+  gap: 0.35rem;
+  padding-top: 0.2rem;
+}
+
+.page-about .about-step-text {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.96rem;
+  line-height: 1.68;
+}
+
+.page-about .about-process-bridge {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+  line-height: 1.68;
 }
 
 .page-about .philosophy {
@@ -5694,8 +5753,8 @@ html.dark .page-service .faq-toggle {
 }
 
 .js .page-about .about-card-frame[data-reveal].is-revealed .about-card {
-  transform: translateY(-2px);
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.06);
 }
 
 .js .page-about .philosophy-pillars[data-reveal] .about-reveal-item {
@@ -5725,6 +5784,27 @@ html.dark .page-service .faq-toggle {
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(4) {
   transition-delay: 320ms;
+}
+
+.js .page-about .about-card-section[data-reveal],
+.js .page-about .about-page-heading[data-reveal],
+.js .page-about .about-page-signals[data-reveal],
+.js .page-about .about-step[data-reveal],
+.js .page-about .about-process-bridge[data-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 320ms ease,
+    transform 320ms ease;
+}
+
+.js .page-about .about-card-section[data-reveal].is-revealed,
+.js .page-about .about-page-heading[data-reveal].is-revealed,
+.js .page-about .about-page-signals[data-reveal].is-revealed,
+.js .page-about .about-step[data-reveal].is-revealed,
+.js .page-about .about-process-bridge[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @keyframes page-about-fade-up {
@@ -5791,8 +5871,22 @@ html.dark .page-about .page-about-hero-continuation {
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
 }
 
+html.dark .page-about .page-about-hero-actions .page-service-secondary-cta {
+  border-color: rgba(243, 216, 160, 0.16);
+  background: linear-gradient(180deg, rgba(243, 216, 160, 0.08), rgba(29, 44, 64, 0.32));
+  color: #f8fafc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+html.dark .page-about .page-about-hero-actions .page-service-secondary-cta:hover,
+html.dark .page-about .page-about-hero-actions .page-service-secondary-cta:focus-visible {
+  border-color: rgba(243, 216, 160, 0.24);
+  background: linear-gradient(180deg, rgba(243, 216, 160, 0.12), rgba(35, 52, 74, 0.4));
+  color: #ffffff;
+}
+
 html.dark .page-about .about-page {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0), #111827 18%, #0f172a 100%);
+  background: linear-gradient(180deg, #0f172a 0%, #111827 18%, #0f172a 100%);
 }
 
 html.dark .page-about .about-page .about-card,
@@ -5807,6 +5901,11 @@ html.dark .page-about .about-card-section + .about-card-section {
   border-top-color: rgba(255, 255, 255, 0.12);
 }
 
+html.dark .page-about .about-page .about-card .about-card-summary,
+html.dark .page-about .about-process-bridge {
+  color: #c9d6e6;
+}
+
 html.dark .page-about .about-card-highlight-label {
   color: #f3d8a0;
 }
@@ -5816,6 +5915,26 @@ html.dark .page-about .about-manifesto-list li {
 }
 
 html.dark .page-about .about-card-list li {
+  color: #e5edf7;
+}
+
+html.dark .page-about .about-step {
+  border-color: rgba(243, 216, 160, 0.1);
+  background: rgba(17, 24, 39, 0.62);
+  box-shadow: none;
+}
+
+html.dark .page-about .about-step:hover,
+html.dark .page-about .about-step:focus-within {
+  background: rgba(24, 36, 56, 0.92);
+  box-shadow: none;
+}
+
+html.dark .page-about .about-step-number {
+  color: #f3d8a0;
+}
+
+html.dark .page-about .about-step-text {
   color: #e5edf7;
 }
 
@@ -5874,6 +5993,10 @@ html.dark .page-about .footer-cta {
 
   .page-about .about-page .about-layout {
     gap: 2.5rem;
+  }
+
+  .page-about .about-step {
+    padding: 1.2rem 1.15rem;
   }
 
   .page-about .philosophy-band {
@@ -5999,6 +6122,14 @@ html.dark .page-about .footer-cta {
 
   .page-about .about-page .about-card {
     padding: 1.95rem 1.85rem;
+  }
+
+  .page-about .about-page .about-page-content {
+    gap: 1.5rem;
+  }
+
+  .page-about .about-steps {
+    gap: 1rem;
   }
 }
 

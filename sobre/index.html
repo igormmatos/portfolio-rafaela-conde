@@ -28,7 +28,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
       rel="stylesheet"
     />
-    <link href="../assets/css/styles.css?v=20260416-3" rel="stylesheet" />
+    <link href="../assets/css/styles.css?v=20260416-4" rel="stylesheet" />
   </head>
   <body class="page-about">
     <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
@@ -126,69 +126,83 @@
 
       <section class="section about about-page" id="trajetoria" aria-labelledby="trajetoria-title">
         <div class="container about-layout">
-          <div class="about-content about-page-content" data-reveal>
-            <div class="about-page-heading">
+          <div class="about-card-frame" data-reveal>
+            <article class="about-card">
+              <p class="section-kicker about-card-kicker">Trajetória</p>
+              <h3 class="about-card-title">Trajetória profissional</h3>
+              <p class="about-card-summary">
+                Panorama objetivo da formação, da atuação atual e das áreas de foco.
+              </p>
+              <div class="about-card-sections" aria-label="Resumo da trajetória profissional">
+                <section class="about-card-section" data-reveal>
+                  <span class="about-card-highlight-label">Formação</span>
+                  <ul class="about-card-list">
+                    <li>Formada em Direito pelas Faculdades Integradas Vianna Júnior.</li>
+                  </ul>
+                </section>
+                <section class="about-card-section" data-reveal>
+                  <span class="about-card-highlight-label">Atuação atual</span>
+                  <ul class="about-card-list">
+                    <li>Integra a equipe Pacheco &amp; Reis Advogados, com foco principal em Direito do Trabalho.</li>
+                  </ul>
+                </section>
+                <section class="about-card-section" data-reveal>
+                  <span class="about-card-highlight-label">Áreas de foco</span>
+                  <ul class="about-card-list">
+                    <li>Direito Trabalhista para trabalhadores e empresas.</li>
+                    <li>Direito de Trânsito em demandas complementares, quando aplicável.</li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+          </div>
+          <div class="about-content about-page-content">
+            <div class="about-page-heading" data-reveal>
               <p class="section-kicker">Forma de Atuação</p>
-              <h2 class="section-title" id="trajetoria-title">Clareza para orientar cada decisão.</h2>
-            </div>
-            <div class="about-rich-text">
+              <h2 class="section-title" id="trajetoria-title">Como funciona o atendimento</h2>
               <p class="section-description">
-                O atendimento é conduzido com <strong>clareza, técnica e leitura individualizada</strong>,
-                para que o cenário jurídico fique compreensível desde o início.
-              </p>
-              <p class="section-description">
-                A atuação principal é em <strong>Direito Trabalhista</strong>, com orientação objetiva
-                sobre fatos, riscos e próximos passos desde o primeiro contato.
-              </p>
-              <p class="section-description">
-                Quando a demanda exige suporte complementar, a integração com o
-                <strong>Pacheco &amp; Reis Advogados</strong> reforça a análise e a condução
-                responsável do atendimento.
+                Passo a passo do primeiro contato até a decisão sobre o caso.
               </p>
             </div>
-            <div class="about-page-signals" aria-label="Pontos centrais da atuação">
+            <div class="about-page-signals" aria-label="Pontos centrais da atuação" data-reveal>
               <span class="page-about-hero-chip">Direito Trabalhista como foco principal</span>
               <span class="page-about-hero-chip">Atendimento presencial e on-line</span>
               <span class="page-about-hero-chip">Apoio institucional quando necessário</span>
             </div>
             <div class="about-page-benefits">
-              <h3 class="about-page-subtitle">Forma de atuação</h3>
-              <ul class="about-manifesto-list" aria-label="Resumo da forma de atuação">
-                <li>Comunicação direta, sem excesso de jargão, sobre o que está em jogo.</li>
-                <li>Leitura cuidadosa de fatos, documentos e prioridades antes de indicar caminhos.</li>
-                <li>Atendimento trabalhista para trabalhadores e empresas, com suporte complementar em trânsito quando aplicável.</li>
-              </ul>
-            </div>
-          </div>
-          <div class="about-card-frame" data-reveal>
-            <article class="about-card">
-              <p class="section-kicker about-card-kicker">Trajetória</p>
-              <h3 class="about-card-title">Trajetória profissional</h3>
-              <div class="about-card-sections" aria-label="Resumo da trajetória profissional">
-                <section class="about-card-section">
-                  <span class="about-card-highlight-label">Formação</span>
-                  <p>
-                    Formada em Direito pelas Faculdades Integradas Vianna Júnior, com atuação
-                    orientada por técnica, sobriedade e leitura individualizada de cada situação.
-                  </p>
-                </section>
-                <section class="about-card-section">
-                  <span class="about-card-highlight-label">Atuação atual</span>
-                  <ul class="about-card-list">
-                    <li>Integrante da equipe Pacheco &amp; Reis Advogados.</li>
-                    <li>Atuação em demandas consultivas e contenciosas.</li>
-                    <li>Atendimento presencial em Juiz de Fora/MG e on-line em todo o Brasil.</li>
-                  </ul>
-                </section>
-                <section class="about-card-section">
-                  <span class="about-card-highlight-label">Áreas de foco</span>
-                  <ul class="about-card-list">
-                    <li>Direito Trabalhista para trabalhadores e empresas.</li>
-                    <li>Direito de Trânsito em demandas específicas.</li>
-                  </ul>
-                </section>
+              <div class="about-steps" aria-label="Etapas do atendimento">
+                <article class="about-step" data-reveal>
+                  <span aria-hidden="true" class="about-step-number">01</span>
+                  <div class="about-step-body">
+                    <h3 class="about-page-subtitle">Entendimento da situação</h3>
+                    <p class="about-step-text">
+                      Primeiro contato pelo WhatsApp para entender o que aconteceu e a urgência do caso.
+                    </p>
+                  </div>
+                </article>
+                <article class="about-step" data-reveal>
+                  <span aria-hidden="true" class="about-step-number">02</span>
+                  <div class="about-step-body">
+                    <h3 class="about-page-subtitle">Análise de direitos e riscos</h3>
+                    <p class="about-step-text">
+                      Leitura dos fatos e documentos, com explicação objetiva sobre direitos, limites e possibilidades.
+                    </p>
+                  </div>
+                </article>
+                <article class="about-step" data-reveal>
+                  <span aria-hidden="true" class="about-step-number">03</span>
+                  <div class="about-step-body">
+                    <h3 class="about-page-subtitle">Definição do caminho</h3>
+                    <p class="about-step-text">
+                      Decisão conjunta sobre acordo, ação judicial ou orientação pontual, conforme o contexto apresentado.
+                    </p>
+                  </div>
+                </article>
               </div>
-            </article>
+              <p class="about-process-bridge" data-reveal>
+                Esse fluxo sustenta, na prática, os pilares de ética, transparência, humanização e colaboração apresentados a seguir.
+              </p>
+            </div>
           </div>
         </div>
       </section>
