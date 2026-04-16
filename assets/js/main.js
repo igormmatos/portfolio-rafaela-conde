@@ -1,4 +1,6 @@
 (() => {
+  document.documentElement.classList.add("js");
+
   const WHATSAPP_PHONE = "5532998342555";
   const CTA_TIME_ZONE = "America/Sao_Paulo";
   const CTA_BUSINESS_OPEN_HOUR = 8;
@@ -25,6 +27,9 @@
   const contactForm = document.getElementById("contact-form");
   const termsCheckbox = document.getElementById("terms");
   const formFeedback = document.getElementById("form-feedback");
+  const officeAddress = document.getElementById("office-address");
+  const copyAddressButton = document.getElementById("copy-address-button");
+  const copyAddressStatus = document.getElementById("copy-address-status");
 
   if (themeToggleButton) {
     themeToggleButton.addEventListener("click", () => {
@@ -43,6 +48,259 @@
       link.addEventListener("click", () => {
         mobileNav.classList.remove("is-open");
         mobileNavToggleButton.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  if (officeAddress && copyAddressButton && copyAddressStatus) {
+    const copyAddressLabel = copyAddressButton.querySelector(".contact-address-action-label");
+    const defaultCopyAddressLabel =
+      copyAddressLabel?.textContent?.trim() ?? copyAddressButton.textContent.trim();
+    let copyAddressResetTimeoutId = 0;
+
+    const normalizeAddress = (value) =>
+      value
+        .replace(/\s*\n\s*/g, ", ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+
+    const setCopyAddressLabel = (label) => {
+      if (copyAddressLabel) {
+        copyAddressLabel.textContent = label;
+      } else {
+        copyAddressButton.textContent = label;
+      }
+    };
+
+    const resetCopyAddressFeedback = () => {
+      setCopyAddressLabel(defaultCopyAddressLabel);
+      copyAddressButton.classList.remove("is-success", "is-error");
+      copyAddressStatus.textContent = "";
+    };
+
+    const setCopyAddressFeedback = (label, status, stateClass) => {
+      clearTimeout(copyAddressResetTimeoutId);
+      setCopyAddressLabel(label);
+      copyAddressButton.classList.remove("is-success", "is-error");
+
+      if (stateClass) {
+        copyAddressButton.classList.add(stateClass);
+      }
+
+      copyAddressStatus.textContent = status;
+      copyAddressResetTimeoutId = window.setTimeout(() => {
+        resetCopyAddressFeedback();
+      }, 2000);
+    };
+
+    const copyTextToClipboard = async (text) => {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const temporaryField = document.createElement("textarea");
+      temporaryField.value = text;
+      temporaryField.setAttribute("readonly", "");
+      temporaryField.style.position = "absolute";
+      temporaryField.style.left = "-9999px";
+      document.body.appendChild(temporaryField);
+      temporaryField.select();
+
+      const didCopy = document.execCommand("copy");
+      document.body.removeChild(temporaryField);
+
+      if (!didCopy) {
+        throw new Error("Clipboard copy failed.");
+      }
+    };
+
+    copyAddressButton.addEventListener("click", async () => {
+      const addressToCopy = normalizeAddress(officeAddress.innerText);
+
+      try {
+        await copyTextToClipboard(addressToCopy);
+        setCopyAddressFeedback(
+          "Copiado!",
+          "Endereço copiado para a área de transferência.",
+          "is-success",
+        );
+      } catch {
+        setCopyAddressFeedback(
+          "Não foi possível copiar",
+          "Não foi possível copiar o endereço. Tente usar o Google Maps.",
+          "is-error",
+        );
+      }
+    });
+  }
+
+  const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
+
+  if (revealElements.length) {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => {
+        element.classList.add("is-revealed");
+      });
+    } else {
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.2,
+          rootMargin: "0px 0px -8% 0px",
+        },
+      );
+
+      revealElements.forEach((element) => {
+        revealObserver.observe(element);
+      });
+    }
+  }
+
+  const animatedFaqItems = Array.from(document.querySelectorAll(".page-service .faq-item"));
+
+  if (animatedFaqItems.length) {
+    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileFaqQuery = window.matchMedia("(max-width: 767px)");
+
+    const setFaqExpandedState = (summary, isOpen) => {
+      summary.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    const syncFaqAnswerHeight = (details, answer, inner) => {
+      if (!details.open) {
+        return;
+      }
+
+      answer.style.maxHeight = `${inner.scrollHeight}px`;
+    };
+
+    const scrollFaqIntoView = (details) => {
+      if (!mobileFaqQuery.matches) {
+        return;
+      }
+
+      details.scrollIntoView({
+        behavior: reduceMotionQuery.matches ? "auto" : "smooth",
+        block: "start",
+      });
+    };
+
+    const setStaticFaqState = (details, summary, answer, inner, isOpen) => {
+      details.open = isOpen;
+      answer.style.maxHeight = isOpen ? `${inner.scrollHeight}px` : "0px";
+      answer.style.opacity = isOpen ? "1" : "0";
+      setFaqExpandedState(summary, isOpen);
+    };
+
+    const animateFaqToggle = (details, summary, answer, inner, shouldOpen) => {
+      if (answer.dataset.animating === "true") {
+        return;
+      }
+
+      const startHeight = answer.getBoundingClientRect().height;
+
+      if (shouldOpen) {
+        details.open = true;
+      }
+
+      const endHeight = shouldOpen ? inner.getBoundingClientRect().height : 0;
+
+      answer.dataset.animating = "true";
+      setFaqExpandedState(summary, shouldOpen);
+      answer.style.maxHeight = `${startHeight}px`;
+      answer.style.opacity = shouldOpen ? "0" : "1";
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          answer.style.maxHeight = `${endHeight}px`;
+          answer.style.opacity = shouldOpen ? "1" : "0";
+        });
+      });
+
+      const handleTransitionEnd = (event) => {
+        if (event.propertyName !== "max-height") {
+          return;
+        }
+
+        answer.removeEventListener("transitionend", handleTransitionEnd);
+        answer.dataset.animating = "false";
+
+        if (shouldOpen) {
+          details.open = true;
+          answer.style.maxHeight = `${inner.scrollHeight}px`;
+          answer.style.opacity = "1";
+          scrollFaqIntoView(details);
+        } else {
+          details.open = false;
+          answer.style.maxHeight = "0px";
+          answer.style.opacity = "0";
+        }
+      };
+
+      answer.addEventListener("transitionend", handleTransitionEnd);
+    };
+
+    animatedFaqItems.forEach((details) => {
+      const summary = details.querySelector("summary");
+      const answer = details.querySelector(".faq-answer");
+      const inner = answer?.querySelector(".faq-answer-inner");
+
+      if (!summary || !answer || !inner) {
+        return;
+      }
+
+      answer.dataset.animating = "false";
+      const faqIndex = animatedFaqItems.indexOf(details) + 1;
+      const summaryId = summary.id || `faq-summary-${faqIndex}`;
+      const answerId = answer.id || `faq-answer-${faqIndex}`;
+
+      summary.id = summaryId;
+      answer.id = answerId;
+      summary.setAttribute("aria-controls", answerId);
+      answer.setAttribute("role", "region");
+      answer.setAttribute("aria-labelledby", summaryId);
+      setStaticFaqState(details, summary, answer, inner, details.open);
+
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        if (reduceMotionQuery.matches) {
+          const shouldOpen = !details.open;
+          setStaticFaqState(details, summary, answer, inner, shouldOpen);
+
+          if (shouldOpen) {
+            scrollFaqIntoView(details);
+          }
+
+          return;
+        }
+
+        animateFaqToggle(details, summary, answer, inner, !details.open);
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      animatedFaqItems.forEach((details) => {
+        const answer = details.querySelector(".faq-answer");
+        const inner = answer?.querySelector(".faq-answer-inner");
+
+        if (!answer || !inner) {
+          return;
+        }
+
+        syncFaqAnswerHeight(details, answer, inner);
       });
     });
   }
@@ -471,11 +729,75 @@
     const fields = Object.fromEntries(
       fieldIds.map((id) => [id, document.getElementById(id)]),
     );
+    const fieldErrorElements = Object.fromEntries(
+      ["nome", "telefone", "area", "mensagem"].map((id) => [
+        id,
+        document.getElementById(`${id}-error`),
+      ]),
+    );
+    const termsError = document.getElementById("terms-error");
     const requiredFieldMessages = {
       nome: "Informe seu nome completo para iniciar o atendimento.",
       telefone: "Informe seu telefone ou WhatsApp para retorno.",
       area: "Selecione a área de atuação desejada para seguir com o atendimento.",
       mensagem: "Descreva sua necessidade para seguir com o atendimento.",
+    };
+
+    const setFieldValidity = (field, isInvalid) => {
+      if (!field) {
+        return;
+      }
+
+      if (isInvalid) {
+        field.setAttribute("aria-invalid", "true");
+      } else {
+        field.removeAttribute("aria-invalid");
+      }
+    };
+
+    const clearInlineError = (fieldId) => {
+      const errorElement = fieldErrorElements[fieldId];
+
+      if (errorElement) {
+        errorElement.hidden = true;
+        errorElement.textContent = "";
+      }
+
+      setFieldValidity(fields[fieldId], false);
+    };
+
+    const showInlineError = (fieldId, message) => {
+      const errorElement = fieldErrorElements[fieldId];
+
+      if (errorElement) {
+        errorElement.hidden = false;
+        errorElement.textContent = message;
+      }
+
+      setFieldValidity(fields[fieldId], true);
+    };
+
+    const clearTermsError = () => {
+      if (termsError) {
+        termsError.hidden = true;
+        termsError.textContent = "";
+      }
+
+      setFieldValidity(termsCheckbox, false);
+    };
+
+    const showTermsError = (message) => {
+      if (termsError) {
+        termsError.hidden = false;
+        termsError.textContent = message;
+      }
+
+      setFieldValidity(termsCheckbox, true);
+    };
+
+    const clearAllInlineErrors = () => {
+      Object.keys(fieldErrorElements).forEach(clearInlineError);
+      clearTermsError();
     };
 
     const clearFeedback = () => {
@@ -484,10 +806,18 @@
       formFeedback.classList.remove("is-error");
     };
 
-    const showError = (message, field) => {
+    const showError = (message, field, fieldId) => {
       formFeedback.hidden = false;
       formFeedback.textContent = message;
       formFeedback.classList.add("is-error");
+
+      clearAllInlineErrors();
+
+      if (fieldId && fieldErrorElements[fieldId]) {
+        showInlineError(fieldId, message);
+      } else if (field === termsCheckbox) {
+        showTermsError(message);
+      }
 
       if (field) {
         field.focus();
@@ -549,6 +879,8 @@
 
       const eventName = field.tagName === "SELECT" ? "change" : "input";
       field.addEventListener(eventName, () => {
+        clearInlineError(field.id);
+
         if (formFeedback.classList.contains("is-error")) {
           clearFeedback();
         }
@@ -556,6 +888,8 @@
     });
 
     termsCheckbox.addEventListener("change", () => {
+      clearTermsError();
+
       if (formFeedback.classList.contains("is-error")) {
         clearFeedback();
       }
@@ -579,12 +913,12 @@
 
       if (firstMissingField) {
         const [fieldId, message] = firstMissingField;
-        showError(message, fields[fieldId]);
+        showError(message, fields[fieldId], fieldId);
         return;
       }
 
       if (values.telefone.replace(/\D/g, "").length !== 11) {
-        showError("Informe o telefone no formato (00) 00000-0000.", fields.telefone);
+        showError("Informe o telefone no formato (00) 00000-0000.", fields.telefone, "telefone");
         return;
       }
 

@@ -28,7 +28,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
       rel="stylesheet"
     />
-    <link href="../assets/css/styles.css?v=20260409-16" rel="stylesheet" />
+    <link href="../assets/css/styles.css?v=20260416-5" rel="stylesheet" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -46,41 +46,89 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Que documentos ajudam no primeiro contato?",
+            "name": "Fui multado. Vale a pena recorrer?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Documento pessoal, notificação, auto de infração ou decisão, além da data limite do prazo e de um resumo em 3 linhas, costumam ajudar na triagem inicial."
+              "text": "Depende do tipo de infração, prazo e documentos disponíveis. Em muitos casos há erros de notificação, falta de prova ou falhas no auto de infração. Uma análise rápida da multa ajuda a saber se há chance real de êxito no recurso."
             }
           },
           {
             "@type": "Question",
-            "name": "Suspensão e cassação são tratadas da mesma forma?",
+            "name": "Perdi o prazo da defesa. Ainda posso fazer alguma coisa?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Não. Cada procedimento exige leitura técnica do ato administrativo, do prazo e da estratégia adequada."
+              "text": "Mesmo após perder uma etapa, ainda podem existir outras fases de recurso, dependendo do órgão que aplicou a multa. É importante trazer a notificação e verificar as datas certinho para ver o que ainda pode ser feito."
             }
           },
           {
             "@type": "Question",
-            "name": "Ainda vale procurar orientação quando o prazo está curto?",
+            "name": "Estou com a CNH quase estourando de pontos. O que fazer?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sim. Se houver prazo curto, vale procurar orientação imediatamente. Documento principal, data limite e breve histórico já ajudam a avaliar o que ainda pode ser feito."
+              "text": "Quando a pontuação se aproxima do limite, cada nova multa pode levar à suspensão da CNH. Avaliar cada infração e ver quais podem ser objeto de recurso é essencial para tentar evitar a suspensão ou reduzir o tempo de penalidade."
             }
           },
           {
             "@type": "Question",
-            "name": "O atendimento pode começar on-line?",
+            "name": "Sofri acidente de trânsito. Posso pedir indenização?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sim. O primeiro contato e a orientação inicial podem ser realizados on-line, inclusive para quem está fora de Juiz de Fora/MG."
+              "text": "Em muitos casos, sim. Dependendo de quem teve culpa, podem existir direitos a indenização por danos materiais (conserto do veículo, despesas) e danos morais. Fotos, boletim de ocorrência e dados das partes ajudam bastante na análise."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A multa veio em nome do dono do carro, mas outra pessoa dirigia. E agora?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Em geral é possível indicar o real condutor dentro do prazo previsto na notificação. Se o prazo passou ou houve erro no preenchimento, a situação fica mais delicada, mas ainda assim pode existir alguma saída, dependendo do caso."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quanto custa para cuidar de um recurso de multa ou suspensão?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Os valores dependem do tipo de processo, quantidade de multas e documentação envolvida. Antes de qualquer contratação, é apresentada uma estimativa transparente, explicando o que está incluído e quais são as possibilidades de resultado."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Preciso comparecer em alguma audiência de trânsito?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Em muitos casos, os recursos são feitos apenas por escrito, sem necessidade de audiência. Situações mais graves, como acidentes com lesão ou morte, podem envolver processos judiciais em que a presença pode ser exigida."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quais documentos são importantes para analisar meu caso de trânsito?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Normalmente são úteis: CNH, documento do veículo, notificações de multa, boletim de ocorrência (quando houver), fotos do local e qualquer comunicação com o órgão de trânsito ou seguradora. Quanto mais completo, melhor a análise."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A seguradora negou cobertura do acidente. Posso questionar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dependendo do motivo da negativa, é possível discutir a recusa, tanto administrativamente quanto judicialmente. O contrato de seguro, laudos e documentos do sinistro são essenciais para entender se houve abuso ou não."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Minha situação é diferente dessas. Como tirar dúvidas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Para casos específicos, o melhor caminho é enviar uma mensagem pelo WhatsApp com um resumo do ocorrido e fotos ou PDFs das notificações, multas ou documentos. Assim a orientação inicial fica mais objetiva."
             }
           }
         ]
       }
     </script>
   </head>
-  <body>
+  <body class="page-service page-service-traffic">
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="../" aria-label="Voltar para a página inicial">
@@ -127,86 +175,342 @@
     </header>
 
     <main>
-      <section class="page-hero">
-        <div class="container page-hero-content">
-          <p class="section-kicker">Direito de Trânsito</p>
-          <h1 class="page-hero-title">Atuação complementar em Direito de Trânsito</h1>
-          <p class="page-hero-text">
-            Orientação técnica para processos administrativos, suspensão, cassação e recursos de
-            infrações, com atendimento presencial em Juiz de Fora/MG e on-line em todo o Brasil.
-            Leitura objetiva de documentos, prazos e possibilidades iniciais.
-          </p>
-          <div class="hero-actions">
-            <a
-              class="btn btn-lg hero-primary-cta"
-              href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20a%20p%C3%A1gina%20de%20Direito%20de%20Tr%C3%A2nsito%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial.%20Documento%20principal%3A%20%5Bnotifica%C3%A7%C3%A3o%2Fauto%2Fdecis%C3%A3o%5D.%20Data%20limite%3A%20%5Bdd%2Fmm%2Faaaa%2C%20se%20houver%5D.%20Resumo%3A%20%5B3%20linhas%5D."
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <span class="material-icons-outlined">chat</span>
-              <span>Falar com a Dra. Rafaela</span>
-            </a>
-            <a class="hero-secondary-cta" href="#faq-transito">Ver dúvidas frequentes</a>
+      <section class="page-hero" aria-labelledby="transito-hero-title">
+        <div class="container page-hero-content" data-reveal>
+          <div class="page-service-hero-shell">
+            <div class="page-service-hero-copy">
+              <p class="section-kicker">Direito de Trânsito</p>
+              <h1 class="page-hero-title" id="transito-hero-title">
+                <span class="hero-title-line">Atuação complementar em</span>
+                <span class="hero-title-line accent hero-title-keyword">Direito de Trânsito</span>
+              </h1>
+              <p class="page-hero-text">
+                Orientação técnica para suspensão, cassação, recursos e processos administrativos,
+                com atendimento em Juiz de Fora/MG e on-line em todo o Brasil.
+              </p>
+              <div class="hero-actions">
+                <a
+                  class="btn btn-lg hero-primary-cta"
+                  href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20a%20p%C3%A1gina%20de%20Direito%20de%20Tr%C3%A2nsito%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial.%20Documento%20principal%3A%20%5Bnotifica%C3%A7%C3%A3o%2Fauto%2Fdecis%C3%A3o%5D.%20Data%20limite%3A%20%5Bdd%2Fmm%2Faaaa%2C%20se%20houver%5D.%20Resumo%3A%20%5B3%20linhas%5D."
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <span class="material-icons-outlined">chat</span>
+                  <span>Falar com a Dra. Rafaela</span>
+                </a>
+              </div>
+              <a class="page-service-hero-continuation" href="#triagem-detalhada">
+                <span>Role para ver situações atendidas</span>
+                <span aria-hidden="true" class="material-icons-outlined">south</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section section-soft">
+      <section class="section section-soft page-service-situations" id="triagem-detalhada">
         <div class="container">
-          <header class="section-header section-header-left compact">
+          <header class="section-header section-header-left compact" data-reveal>
+            <p class="section-kicker">Triagem Inicial</p>
             <h2 class="section-title">Situações atendidas com frequência</h2>
+            <p class="section-summary">
+              Atendimento técnico para processos administrativos de trânsito, com orientação clara
+              sobre documentos, prazos e estratégia inicial.
+            </p>
           </header>
-          <div class="topic-grid">
-            <article class="topic-card topic-card-primary"><h3 class="topic-card-title">Suspensão de CNH</h3><p class="topic-card-text">Leitura do procedimento, prazo e estratégia inicial.</p></article>
-            <article class="topic-card"><h3 class="topic-card-title">Cassação de CNH</h3><p class="topic-card-text">Análise documental e organização do processo administrativo.</p></article>
-            <article class="topic-card"><h3 class="topic-card-title">Recursos de infrações</h3><p class="topic-card-text">Orientação sobre autos, notificações e fundamentos aplicáveis.</p></article>
-            <article class="topic-card"><h3 class="topic-card-title">Pendências administrativas</h3><p class="topic-card-text">Acompanhamento de processos e regularização documental.</p></article>
+          <ul
+            class="situation-list page-service-situation-list service-reveal-list"
+            data-reveal
+            aria-label="Situações comuns analisadas em Direito de Trânsito"
+          >
+            <li class="situation-item service-reveal-item">
+              <span aria-hidden="true" class="material-icons-outlined situation-icon">schedule</span>
+              <div class="situation-copy">
+                <h3 class="situation-title">Suspensão e cassação de CNH</h3>
+                <p class="situation-text">
+                  Leitura do processo, dos documentos e dos prazos para definição da estratégia
+                  inicial.
+                </p>
+              </div>
+            </li>
+            <li class="situation-item service-reveal-item">
+              <span aria-hidden="true" class="material-icons-outlined situation-icon">gavel</span>
+              <div class="situation-copy">
+                <h3 class="situation-title">Recursos de infrações e penalidades</h3>
+                <p class="situation-text">
+                  Análise técnica da autuação, da penalidade aplicada e dos fundamentos para
+                  recurso.
+                </p>
+              </div>
+            </li>
+            <li class="situation-item service-reveal-item">
+              <span aria-hidden="true" class="material-icons-outlined situation-icon">description</span>
+              <div class="situation-copy">
+                <h3 class="situation-title">Processos administrativos e acompanhamento técnico</h3>
+                <p class="situation-text">
+                  Organização do procedimento, leitura das etapas e acompanhamento documental do
+                  caso.
+                </p>
+              </div>
+            </li>
+            <li class="situation-item service-reveal-item">
+              <span aria-hidden="true" class="material-icons-outlined situation-icon">fact_check</span>
+              <div class="situation-copy">
+                <h3 class="situation-title">Defesa prévia e revisão de pontuação</h3>
+                <p class="situation-text">
+                  Verificação do ato administrativo, da pontuação lançada e das possibilidades de
+                  contestação.
+                </p>
+              </div>
+            </li>
+            <li class="situation-item service-reveal-item">
+              <span aria-hidden="true" class="material-icons-outlined situation-icon">local_bar</span>
+              <div class="situation-copy">
+                <h3 class="situation-title">Recursos de Lei Seca e desbloqueio de CNH</h3>
+                <p class="situation-text">
+                  Avaliação do procedimento, dos documentos disponíveis e dos caminhos
+                  administrativos possíveis.
+                </p>
+              </div>
+            </li>
+            <li class="situation-item service-reveal-item">
+              <span aria-hidden="true" class="material-icons-outlined situation-icon">edit_note</span>
+              <div class="situation-copy">
+                <h3 class="situation-title">Correção de prontuário e transferência de pontuação</h3>
+                <p class="situation-text">
+                  Leitura do prontuário, conferência de registros e orientação sobre regularização
+                  administrativa.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section section-contrast page-service-columns-section">
+        <div class="container">
+          <header class="section-header section-header-left compact" data-reveal>
+            <p class="section-kicker">Como Funciona</p>
+            <h2 class="section-title">Como a análise é feita</h2>
+          </header>
+          <div class="service-columns-card service-reveal-list" data-reveal>
+            <article class="service-column service-reveal-item">
+              <h2 class="service-column-title">Como funciona o atendimento</h2>
+              <ul class="service-column-list">
+                <li>Envio inicial das informações essenciais</li>
+                <li>Análise de documentos, prazos e histórico administrativo</li>
+                <li>Definição do encaminhamento técnico adequado</li>
+              </ul>
+            </article>
+            <article class="service-column service-reveal-item">
+              <h2 class="service-column-title">O que separar no primeiro contato</h2>
+              <ul class="service-column-list">
+                <li>Documento pessoal</li>
+                <li>Notificação, auto ou decisão recebida</li>
+                <li>Prazo em curso (data limite) + resumo em 3 linhas</li>
+              </ul>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section section-contrast">
-        <div class="container content-split">
-          <article class="detail-card">
-            <h2 class="detail-card-title">Como funciona o atendimento</h2>
-            <ul class="detail-list">
-              <li>Envio inicial das informações essenciais</li>
-              <li>Análise de documentos, prazos e histórico administrativo</li>
-              <li>Definição do encaminhamento técnico adequado</li>
-            </ul>
-          </article>
-          <article class="detail-card">
-            <h2 class="detail-card-title">O que separar no primeiro contato</h2>
-            <ul class="detail-list">
-              <li>Documento pessoal</li>
-              <li>Notificação, auto ou decisão recebida</li>
-              <li>Prazo em curso (data limite) + resumo em 3 linhas</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="section section-soft" id="faq-transito">
+      <section class="section section-soft page-service-faq" id="faq-transito">
         <div class="container">
-          <header class="section-header compact">
-            <h2 class="section-title">Dúvidas frequentes</h2>
+          <header class="section-header section-header-left compact" data-reveal>
+            <p class="section-kicker">Atendimento na Prática</p>
+            <h2 class="section-title">Perguntas frequentes sobre Direito de Trânsito</h2>
+            <p class="section-summary">
+              Veja respostas rápidas para as dúvidas mais comuns. Se ainda ficar com alguma
+              pergunta, é só chamar no WhatsApp.
+            </p>
           </header>
-          <div class="faq-grid">
-            <details class="faq-item" open><summary>Que documentos ajudam no primeiro contato?</summary><p>Documento pessoal, notificação, auto de infração ou decisão, além da data limite do prazo e de um resumo em 3 linhas, costumam ajudar na triagem inicial.</p></details>
-            <details class="faq-item"><summary>Suspensão e cassação são tratadas da mesma forma?</summary><p>Não. Cada procedimento exige leitura técnica do ato administrativo, do prazo e da estratégia adequada.</p></details>
-            <details class="faq-item"><summary>Ainda vale procurar orientação quando o prazo está curto?</summary><p>Sim. Se houver prazo curto, vale procurar orientação imediatamente. Documento principal, data limite e breve histórico já ajudam a avaliar o que ainda pode ser feito.</p></details>
-            <details class="faq-item"><summary>O atendimento pode começar on-line?</summary><p>Sim. O primeiro contato e a orientação inicial podem ser realizados on-line, inclusive para quem está fora de Juiz de Fora/MG.</p></details>
+          <div class="faq-grid service-faq-list">
+            <div class="service-faq-column service-reveal-list" data-reveal>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">Fui multado. Vale a pena recorrer?</span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Depende do tipo de infração, prazo e documentos disponíveis. Em muitos casos
+                      há erros de notificação, falta de prova ou falhas no auto de infração. Uma
+                      análise rápida da multa ajuda a saber se há chance real de êxito no recurso.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Perdi o prazo da defesa. Ainda posso fazer alguma coisa?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Mesmo após perder uma etapa, ainda podem existir outras fases de recurso,
+                      dependendo do órgão que aplicou a multa. É importante trazer a notificação e
+                      verificar as datas certinho para ver o que ainda pode ser feito.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Estou com a CNH quase estourando de pontos. O que fazer?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Quando a pontuação se aproxima do limite, cada nova multa pode levar à
+                      suspensão da CNH. Avaliar cada infração e ver quais podem ser objeto de
+                      recurso é essencial para tentar evitar a suspensão ou reduzir o tempo de
+                      penalidade.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Sofri acidente de trânsito. Posso pedir indenização?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Em muitos casos, sim. Dependendo de quem teve culpa, podem existir direitos a
+                      indenização por danos materiais (conserto do veículo, despesas) e danos
+                      morais. Fotos, boletim de ocorrência e dados das partes ajudam bastante na
+                      análise.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    A multa veio em nome do dono do carro, mas outra pessoa dirigia. E agora?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Em geral é possível indicar o real condutor dentro do prazo previsto na
+                      notificação. Se o prazo passou ou houve erro no preenchimento, a situação fica
+                      mais delicada, mas ainda assim pode existir alguma saída, dependendo do caso.
+                    </p>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="service-faq-column service-reveal-list" data-reveal>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Quanto custa para cuidar de um recurso de multa ou suspensão?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Os valores dependem do tipo de processo, quantidade de multas e documentação
+                      envolvida. Antes de qualquer contratação, é apresentada uma estimativa
+                      transparente, explicando o que está incluído e quais são as possibilidades de
+                      resultado.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Preciso comparecer em alguma audiência de trânsito?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Em muitos casos, os recursos são feitos apenas por escrito, sem necessidade de
+                      audiência. Situações mais graves, como acidentes com lesão ou morte, podem
+                      envolver processos judiciais em que a presença pode ser exigida.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Quais documentos são importantes para analisar meu caso de trânsito?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Normalmente são úteis: CNH, documento do veículo, notificações de multa,
+                      boletim de ocorrência (quando houver), fotos do local e qualquer comunicação
+                      com o órgão de trânsito ou seguradora. Quanto mais completo, melhor a análise.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    A seguradora negou cobertura do acidente. Posso questionar?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Dependendo do motivo da negativa, é possível discutir a recusa, tanto
+                      administrativamente quanto judicialmente. O contrato de seguro, laudos e
+                      documentos do sinistro são essenciais para entender se houve abuso ou não.
+                    </p>
+                  </div>
+                </div>
+              </details>
+              <details class="faq-item service-reveal-item">
+                <summary>
+                  <span class="faq-question">
+                    Minha situação é diferente dessas. Como tirar dúvidas?
+                  </span>
+                  <span aria-hidden="true" class="faq-toggle">+</span>
+                </summary>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>
+                      Para casos específicos, o melhor caminho é enviar uma mensagem pelo WhatsApp
+                      com um resumo do ocorrido e fotos ou PDFs das notificações, multas ou
+                      documentos. Assim a orientação inicial fica mais objetiva.
+                    </p>
+                  </div>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section">
+      <section class="section page-service-cta-section">
         <div class="container">
-          <div class="cta-band">
-            <h2 class="cta-band-title">Precisa falar sobre uma demanda de trânsito?</h2>
+          <div class="cta-band" data-reveal>
+            <h2 class="cta-band-title">Não achou sua dúvida?</h2>
             <p class="cta-band-text">
-              O primeiro contato deve priorizar prazo, documento principal e uma descrição objetiva
-              da situação.
+              Fale no WhatsApp com um resumo do ocorrido e, se possível, fotos ou PDFs das
+              notificações, multas ou documentos para uma orientação inicial mais objetiva.
             </p>
             <div class="section-actions">
               <a
@@ -215,9 +519,8 @@
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Iniciar atendimento
+                Falar no WhatsApp
               </a>
-              <a class="hero-secondary-cta" href="../#contato">Usar formulário de contato</a>
             </div>
           </div>
         </div>
@@ -312,6 +615,6 @@
       <span class="mobile-whatsapp-cta-label">Falar no WhatsApp com a Dra. Rafaela</span>
     </a>
 
-    <script src="../assets/js/main.js?v=20260409-4"></script>
+    <script src="../assets/js/main.js?v=20260416-5"></script>
   </body>
 </html>
