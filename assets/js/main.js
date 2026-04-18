@@ -1,14 +1,19 @@
 (() => {
+  document.documentElement.classList.add("js");
+
   const WHATSAPP_PHONE = "5532998342555";
   const CTA_TIME_ZONE = "America/Sao_Paulo";
   const CTA_BUSINESS_OPEN_HOUR = 8;
   const CTA_BUSINESS_CLOSE_HOUR = 18;
-  const CTA_PRIMARY_TEXT = "Comece agora seu pré-atendimento via WhatsApp";
+  const CTA_PRIMARY_TEXT = "Falar no WhatsApp com a Dra. Rafaela";
+  const FORM_DEFAULT_URGENCY = "Não informado.";
   const TESTIMONIAL_AUTOPLAY_DELAY = 6000;
+  const TESTIMONIAL_TEXT_CLAMP_LINES = 3;
   const themeToggleButton = document.getElementById("theme-toggle");
   const mobileNavToggleButton = document.getElementById("mobile-nav-toggle");
   const mobileNav = document.getElementById("mobile-nav");
-  const heroSection = document.querySelector(".hero");
+  const heroSection = document.querySelector(".hero, .page-hero");
+  const contactSection = document.getElementById("contato");
   const mobileWhatsAppCta = document.querySelector(".mobile-whatsapp-cta");
   const mobileWhatsAppCtaStatus = document.getElementById("mobile-whatsapp-cta-status");
   const testimonialCarousel = document.querySelector(".testimonial-carousel");
@@ -22,6 +27,9 @@
   const contactForm = document.getElementById("contact-form");
   const termsCheckbox = document.getElementById("terms");
   const formFeedback = document.getElementById("form-feedback");
+  const officeAddress = document.getElementById("office-address");
+  const copyAddressButton = document.getElementById("copy-address-button");
+  const copyAddressStatus = document.getElementById("copy-address-status");
 
   if (themeToggleButton) {
     themeToggleButton.addEventListener("click", () => {
@@ -44,9 +52,270 @@
     });
   }
 
-  if (mobileWhatsAppCta && mobileWhatsAppCtaStatus) {
+  if (officeAddress && copyAddressButton && copyAddressStatus) {
+    const copyAddressLabel = copyAddressButton.querySelector(".contact-address-action-label");
+    const defaultCopyAddressLabel =
+      copyAddressLabel?.textContent?.trim() ?? copyAddressButton.textContent.trim();
+    let copyAddressResetTimeoutId = 0;
+
+    const normalizeAddress = (value) =>
+      value
+        .replace(/\s*\n\s*/g, ", ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+
+    const setCopyAddressLabel = (label) => {
+      if (copyAddressLabel) {
+        copyAddressLabel.textContent = label;
+      } else {
+        copyAddressButton.textContent = label;
+      }
+    };
+
+    const resetCopyAddressFeedback = () => {
+      setCopyAddressLabel(defaultCopyAddressLabel);
+      copyAddressButton.classList.remove("is-success", "is-error");
+      copyAddressStatus.textContent = "";
+    };
+
+    const setCopyAddressFeedback = (label, status, stateClass) => {
+      clearTimeout(copyAddressResetTimeoutId);
+      setCopyAddressLabel(label);
+      copyAddressButton.classList.remove("is-success", "is-error");
+
+      if (stateClass) {
+        copyAddressButton.classList.add(stateClass);
+      }
+
+      copyAddressStatus.textContent = status;
+      copyAddressResetTimeoutId = window.setTimeout(() => {
+        resetCopyAddressFeedback();
+      }, 2000);
+    };
+
+    const copyTextToClipboard = async (text) => {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const temporaryField = document.createElement("textarea");
+      temporaryField.value = text;
+      temporaryField.setAttribute("readonly", "");
+      temporaryField.style.position = "absolute";
+      temporaryField.style.left = "-9999px";
+      document.body.appendChild(temporaryField);
+      temporaryField.select();
+
+      const didCopy = document.execCommand("copy");
+      document.body.removeChild(temporaryField);
+
+      if (!didCopy) {
+        throw new Error("Clipboard copy failed.");
+      }
+    };
+
+    copyAddressButton.addEventListener("click", async () => {
+      const addressToCopy = normalizeAddress(officeAddress.innerText);
+
+      try {
+        await copyTextToClipboard(addressToCopy);
+        setCopyAddressFeedback(
+          "Copiado!",
+          "Endereço copiado para a área de transferência.",
+          "is-success",
+        );
+      } catch {
+        setCopyAddressFeedback(
+          "Não foi possível copiar",
+          "Não foi possível copiar o endereço. Tente usar o Google Maps.",
+          "is-error",
+        );
+      }
+    });
+  }
+
+  const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
+
+  if (revealElements.length) {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => {
+        element.classList.add("is-revealed");
+      });
+    } else {
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.2,
+          rootMargin: "0px 0px -8% 0px",
+        },
+      );
+
+      revealElements.forEach((element) => {
+        revealObserver.observe(element);
+      });
+    }
+  }
+
+  const animatedFaqItems = Array.from(document.querySelectorAll(".page-service .faq-item"));
+
+  if (animatedFaqItems.length) {
+    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileFaqQuery = window.matchMedia("(max-width: 767px)");
+
+    const setFaqExpandedState = (summary, isOpen) => {
+      summary.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    const syncFaqAnswerHeight = (details, answer, inner) => {
+      if (!details.open) {
+        return;
+      }
+
+      answer.style.maxHeight = `${inner.scrollHeight}px`;
+    };
+
+    const scrollFaqIntoView = (details) => {
+      if (!mobileFaqQuery.matches) {
+        return;
+      }
+
+      details.scrollIntoView({
+        behavior: reduceMotionQuery.matches ? "auto" : "smooth",
+        block: "start",
+      });
+    };
+
+    const setStaticFaqState = (details, summary, answer, inner, isOpen) => {
+      details.open = isOpen;
+      answer.style.maxHeight = isOpen ? `${inner.scrollHeight}px` : "0px";
+      answer.style.opacity = isOpen ? "1" : "0";
+      setFaqExpandedState(summary, isOpen);
+    };
+
+    const animateFaqToggle = (details, summary, answer, inner, shouldOpen) => {
+      if (answer.dataset.animating === "true") {
+        return;
+      }
+
+      const startHeight = answer.getBoundingClientRect().height;
+
+      if (shouldOpen) {
+        details.open = true;
+      }
+
+      const endHeight = shouldOpen ? inner.getBoundingClientRect().height : 0;
+
+      answer.dataset.animating = "true";
+      setFaqExpandedState(summary, shouldOpen);
+      answer.style.maxHeight = `${startHeight}px`;
+      answer.style.opacity = shouldOpen ? "0" : "1";
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          answer.style.maxHeight = `${endHeight}px`;
+          answer.style.opacity = shouldOpen ? "1" : "0";
+        });
+      });
+
+      const handleTransitionEnd = (event) => {
+        if (event.propertyName !== "max-height") {
+          return;
+        }
+
+        answer.removeEventListener("transitionend", handleTransitionEnd);
+        answer.dataset.animating = "false";
+
+        if (shouldOpen) {
+          details.open = true;
+          answer.style.maxHeight = `${inner.scrollHeight}px`;
+          answer.style.opacity = "1";
+          scrollFaqIntoView(details);
+        } else {
+          details.open = false;
+          answer.style.maxHeight = "0px";
+          answer.style.opacity = "0";
+        }
+      };
+
+      answer.addEventListener("transitionend", handleTransitionEnd);
+    };
+
+    animatedFaqItems.forEach((details) => {
+      const summary = details.querySelector("summary");
+      const answer = details.querySelector(".faq-answer");
+      const inner = answer?.querySelector(".faq-answer-inner");
+
+      if (!summary || !answer || !inner) {
+        return;
+      }
+
+      answer.dataset.animating = "false";
+      const faqIndex = animatedFaqItems.indexOf(details) + 1;
+      const summaryId = summary.id || `faq-summary-${faqIndex}`;
+      const answerId = answer.id || `faq-answer-${faqIndex}`;
+
+      summary.id = summaryId;
+      answer.id = answerId;
+      summary.setAttribute("aria-controls", answerId);
+      answer.setAttribute("role", "region");
+      answer.setAttribute("aria-labelledby", summaryId);
+      setStaticFaqState(details, summary, answer, inner, details.open);
+
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        if (reduceMotionQuery.matches) {
+          const shouldOpen = !details.open;
+          setStaticFaqState(details, summary, answer, inner, shouldOpen);
+
+          if (shouldOpen) {
+            scrollFaqIntoView(details);
+          }
+
+          return;
+        }
+
+        animateFaqToggle(details, summary, answer, inner, !details.open);
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      animatedFaqItems.forEach((details) => {
+        const answer = details.querySelector(".faq-answer");
+        const inner = answer?.querySelector(".faq-answer-inner");
+
+        if (!answer || !inner) {
+          return;
+        }
+
+        syncFaqAnswerHeight(details, answer, inner);
+      });
+    });
+  }
+
+  if (mobileWhatsAppCta) {
+    let isHeroVisible = Boolean(heroSection);
+    let isContactVisible = false;
+    let isFormEngaged = false;
+
     const setFloatingCtaVisibility = (shouldShow) => {
       mobileWhatsAppCta.classList.toggle("is-visible", shouldShow);
+    };
+
+    const syncFloatingCtaVisibility = () => {
+      setFloatingCtaVisibility(!isHeroVisible && !isContactVisible && !isFormEngaged);
     };
 
     const getSaoPauloBusinessStatus = () => {
@@ -78,15 +347,20 @@
     };
 
     const ctaStatus = getSaoPauloBusinessStatus();
-    mobileWhatsAppCtaStatus.textContent = ctaStatus;
+    if (mobileWhatsAppCtaStatus) {
+      mobileWhatsAppCtaStatus.textContent = ctaStatus;
+    }
+
     mobileWhatsAppCta.setAttribute("aria-label", `${CTA_PRIMARY_TEXT}. ${ctaStatus}.`);
 
     if (!heroSection) {
-      setFloatingCtaVisibility(true);
+      isHeroVisible = false;
+      syncFloatingCtaVisibility();
     } else if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
         ([entry]) => {
-          setFloatingCtaVisibility(!entry.isIntersecting);
+          isHeroVisible = entry.isIntersecting;
+          syncFloatingCtaVisibility();
         },
         {
           threshold: 0,
@@ -94,15 +368,51 @@
       );
 
       observer.observe(heroSection);
+
+      if (contactSection) {
+        const contactObserver = new IntersectionObserver(
+          ([entry]) => {
+            isContactVisible = entry.isIntersecting;
+            syncFloatingCtaVisibility();
+          },
+          {
+            threshold: 0.15,
+          },
+        );
+
+        contactObserver.observe(contactSection);
+      }
     } else {
       const syncFloatingCtaOnScroll = () => {
         const heroBottom = heroSection.getBoundingClientRect().bottom;
-        setFloatingCtaVisibility(heroBottom <= 0);
+        const contactVisible = contactSection
+          ? contactSection.getBoundingClientRect().top < window.innerHeight * 0.85
+          : false;
+
+        isHeroVisible = heroBottom > 0;
+        isContactVisible = contactVisible;
+        syncFloatingCtaVisibility();
       };
 
       syncFloatingCtaOnScroll();
       window.addEventListener("scroll", syncFloatingCtaOnScroll, { passive: true });
       window.addEventListener("resize", syncFloatingCtaOnScroll);
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener("focusin", () => {
+        isFormEngaged = true;
+        syncFloatingCtaVisibility();
+      });
+
+      contactForm.addEventListener("focusout", (event) => {
+        const nextFocusedElement = event.relatedTarget;
+
+        if (!nextFocusedElement || !contactForm.contains(nextFocusedElement)) {
+          isFormEngaged = false;
+          syncFloatingCtaVisibility();
+        }
+      });
     }
   }
 
@@ -117,6 +427,7 @@
     let slidesPerView = 1;
     let currentPage = 0;
     let totalPages = 0;
+    let pageStartIndices = [0];
     let autoplayIntervalId = 0;
     let autoplayResumeTimeoutId = 0;
 
@@ -206,10 +517,121 @@
       });
     };
 
+    const getPageStartIndices = (cardsLength, visibleSlides) => {
+      if (cardsLength <= visibleSlides) {
+        return [0];
+      }
+
+      const starts = [];
+      const lastValidStartIndex = cardsLength - visibleSlides;
+
+      for (
+        let startIndex = 0;
+        startIndex <= lastValidStartIndex;
+        startIndex += visibleSlides
+      ) {
+        starts.push(startIndex);
+      }
+
+      if (starts[starts.length - 1] !== lastValidStartIndex) {
+        starts.push(lastValidStartIndex);
+      }
+
+      return starts;
+    };
+
+    const getNearestPageIndex = (firstVisibleIndex) => {
+      if (!pageStartIndices.length) {
+        return 0;
+      }
+
+      let nearestPageIndex = 0;
+      let smallestDistance = Number.POSITIVE_INFINITY;
+
+      pageStartIndices.forEach((pageStartIndex, pageIndex) => {
+        const distance = Math.abs(pageStartIndex - firstVisibleIndex);
+
+        if (distance < smallestDistance) {
+          smallestDistance = distance;
+          nearestPageIndex = pageIndex;
+        }
+      });
+
+      return nearestPageIndex;
+    };
+
+    const getTestimonialLineHeight = (text) => {
+      const computedStyle = window.getComputedStyle(text);
+      const parsedLineHeight = Number.parseFloat(computedStyle.lineHeight);
+
+      if (Number.isFinite(parsedLineHeight)) {
+        return parsedLineHeight;
+      }
+
+      const parsedFontSize = Number.parseFloat(computedStyle.fontSize);
+
+      if (Number.isFinite(parsedFontSize)) {
+        return parsedFontSize * 1.75;
+      }
+
+      return 24;
+    };
+
+    const hasHiddenTestimonialText = (text) => {
+      const lineHeight = getTestimonialLineHeight(text);
+      const clampHeight = lineHeight * TESTIMONIAL_TEXT_CLAMP_LINES;
+      const estimatedLineCount = text.scrollHeight / lineHeight;
+
+      return (
+        estimatedLineCount > TESTIMONIAL_TEXT_CLAMP_LINES + 0.1 &&
+        text.scrollHeight > clampHeight + 1
+      );
+    };
+
+    const syncTestimonialToggle = (card, index) => {
+      const text = card.querySelector(".testimonial-text");
+      const toggle = card.querySelector(".testimonial-toggle");
+
+      if (!text || !toggle) {
+        return;
+      }
+
+      if (!text.id) {
+        text.id = `testimonial-text-${index + 1}`;
+      }
+
+      toggle.setAttribute("aria-controls", text.id);
+
+      const hasOverflow = hasHiddenTestimonialText(text);
+
+      if (!hasOverflow) {
+        card.classList.remove("is-expanded");
+        card.classList.remove("has-hidden-content");
+        toggle.hidden = true;
+        toggle.textContent = "Ver mais";
+        toggle.setAttribute("aria-expanded", "false");
+        return;
+      }
+
+      const isExpanded = card.classList.contains("is-expanded");
+
+      card.classList.toggle("has-hidden-content", !isExpanded);
+      toggle.hidden = false;
+      toggle.textContent = isExpanded ? "Ver menos" : "Ver mais";
+      toggle.setAttribute("aria-expanded", String(isExpanded));
+    };
+
+    const syncTestimonialToggles = () => {
+      testimonialCards.forEach((card, index) => {
+        syncTestimonialToggle(card, index);
+      });
+    };
+
     const updateTrackPosition = () => {
       testimonialCarousel.style.setProperty("--testimonial-slides-per-view", String(slidesPerView));
+      syncTestimonialToggles();
 
-      const firstVisibleIndex = currentPage * slidesPerView;
+      const firstVisibleIndex = pageStartIndices[currentPage] ?? 0;
       const firstVisibleCard = testimonialCards[firstVisibleIndex];
       const offset = firstVisibleCard?.offsetLeft ?? 0;
 
@@ -227,15 +649,30 @@
     };
 
     const syncCarouselLayout = () => {
-      const previousFirstVisibleIndex = currentPage * slidesPerView;
+      const previousFirstVisibleIndex = pageStartIndices[currentPage] ?? 0;
 
       slidesPerView = getSlidesPerView();
-      totalPages = Math.ceil(testimonialCards.length / slidesPerView);
-      currentPage = Math.min(Math.floor(previousFirstVisibleIndex / slidesPerView), totalPages - 1);
+      pageStartIndices = getPageStartIndices(testimonialCards.length, slidesPerView);
+      totalPages = pageStartIndices.length;
+      currentPage = getNearestPageIndex(previousFirstVisibleIndex);
 
       buildDots();
       updateTrackPosition();
     };
+
+    testimonialCards.forEach((card, index) => {
+      const toggle = card.querySelector(".testimonial-toggle");
+
+      if (!toggle) {
+        return;
+      }
+
+      toggle.addEventListener("click", () => {
+        card.classList.toggle("is-expanded");
+        syncTestimonialToggle(card, index);
+        updateTrackPosition();
+      });
+    });
 
     testimonialPrevButton.addEventListener("click", () => {
       goToPage(currentPage - 1);
@@ -271,20 +708,96 @@
       syncCarouselLayout();
     });
 
+    window.addEventListener("load", () => {
+      syncCarouselLayout();
+    });
+
+    if (document.fonts?.ready) {
+      document.fonts.ready
+        .then(() => {
+          syncCarouselLayout();
+        })
+        .catch(() => {});
+    }
+
     syncCarouselLayout();
     startAutoplay();
   }
 
   if (contactForm && termsCheckbox && formFeedback) {
-    const fieldIds = ["nome", "telefone", "email", "cidade", "area", "mensagem"];
+    const fieldIds = ["nome", "telefone", "area", "prazo", "mensagem"];
     const fields = Object.fromEntries(
       fieldIds.map((id) => [id, document.getElementById(id)]),
     );
+    const fieldErrorElements = Object.fromEntries(
+      ["nome", "telefone", "area", "mensagem"].map((id) => [
+        id,
+        document.getElementById(`${id}-error`),
+      ]),
+    );
+    const termsError = document.getElementById("terms-error");
     const requiredFieldMessages = {
       nome: "Informe seu nome completo para iniciar o atendimento.",
       telefone: "Informe seu telefone ou WhatsApp para retorno.",
       area: "Selecione a área de atuação desejada para seguir com o atendimento.",
       mensagem: "Descreva sua necessidade para seguir com o atendimento.",
+    };
+
+    const setFieldValidity = (field, isInvalid) => {
+      if (!field) {
+        return;
+      }
+
+      if (isInvalid) {
+        field.setAttribute("aria-invalid", "true");
+      } else {
+        field.removeAttribute("aria-invalid");
+      }
+    };
+
+    const clearInlineError = (fieldId) => {
+      const errorElement = fieldErrorElements[fieldId];
+
+      if (errorElement) {
+        errorElement.hidden = true;
+        errorElement.textContent = "";
+      }
+
+      setFieldValidity(fields[fieldId], false);
+    };
+
+    const showInlineError = (fieldId, message) => {
+      const errorElement = fieldErrorElements[fieldId];
+
+      if (errorElement) {
+        errorElement.hidden = false;
+        errorElement.textContent = message;
+      }
+
+      setFieldValidity(fields[fieldId], true);
+    };
+
+    const clearTermsError = () => {
+      if (termsError) {
+        termsError.hidden = true;
+        termsError.textContent = "";
+      }
+
+      setFieldValidity(termsCheckbox, false);
+    };
+
+    const showTermsError = (message) => {
+      if (termsError) {
+        termsError.hidden = false;
+        termsError.textContent = message;
+      }
+
+      setFieldValidity(termsCheckbox, true);
+    };
+
+    const clearAllInlineErrors = () => {
+      Object.keys(fieldErrorElements).forEach(clearInlineError);
+      clearTermsError();
     };
 
     const clearFeedback = () => {
@@ -293,10 +806,18 @@
       formFeedback.classList.remove("is-error");
     };
 
-    const showError = (message, field) => {
+    const showError = (message, field, fieldId) => {
       formFeedback.hidden = false;
       formFeedback.textContent = message;
       formFeedback.classList.add("is-error");
+
+      clearAllInlineErrors();
+
+      if (fieldId && fieldErrorElements[fieldId]) {
+        showInlineError(fieldId, message);
+      } else if (field === termsCheckbox) {
+        showTermsError(message);
+      }
 
       if (field) {
         field.focus();
@@ -320,25 +841,24 @@
         return `(${areaCode}) ${digits.slice(2)}`;
       }
 
-      const ninthDigit = digits.slice(2, 3);
-      const firstBlock = digits.slice(3, 7);
-      const secondBlock = digits.slice(7, 11);
+      const phoneDigits = digits.slice(2);
+      const isMobileNumber = phoneDigits.length > 8;
+      const firstBlock = isMobileNumber ? phoneDigits.slice(0, 5) : phoneDigits.slice(0, 4);
+      const secondBlock = isMobileNumber ? phoneDigits.slice(5, 9) : phoneDigits.slice(4, 8);
 
       if (!firstBlock) {
-        return `(${areaCode}) ${ninthDigit}`;
+        return `(${areaCode})`;
       }
 
       if (!secondBlock) {
-        return `(${areaCode}) ${ninthDigit}.${firstBlock}`;
+        return `(${areaCode}) ${firstBlock}`;
       }
 
-      return `(${areaCode}) ${ninthDigit}.${firstBlock}-${secondBlock}`;
+      return `(${areaCode}) ${firstBlock}-${secondBlock}`;
     };
 
-    const formatEmailValue = (value) => value.replace(/\s+/g, "").toLowerCase();
-
     const openWhatsApp = (message) => {
-      const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
+      const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
       const popup = window.open(url, "_blank", "noopener,noreferrer");
 
       if (!popup) {
@@ -352,12 +872,6 @@
       });
     }
 
-    if (fields.email) {
-      fields.email.addEventListener("input", () => {
-        fields.email.value = formatEmailValue(fields.email.value);
-      });
-    }
-
     Object.values(fields).forEach((field) => {
       if (!field) {
         return;
@@ -365,6 +879,8 @@
 
       const eventName = field.tagName === "SELECT" ? "change" : "input";
       field.addEventListener(eventName, () => {
+        clearInlineError(field.id);
+
         if (formFeedback.classList.contains("is-error")) {
           clearFeedback();
         }
@@ -372,6 +888,8 @@
     });
 
     termsCheckbox.addEventListener("change", () => {
+      clearTermsError();
+
       if (formFeedback.classList.contains("is-error")) {
         clearFeedback();
       }
@@ -385,9 +903,8 @@
       const values = {
         nome: fields.nome?.value.trim() ?? "",
         telefone: fields.telefone?.value.trim() ?? "",
-        email: fields.email?.value.trim() ?? "",
-        cidade: fields.cidade?.value.trim() ?? "",
         area: fields.area?.value.trim() ?? "",
+        prazo: fields.prazo?.value.trim() ?? "",
         mensagem: fields.mensagem?.value.trim() ?? "",
       };
       const firstMissingField = Object.entries(requiredFieldMessages).find(
@@ -396,17 +913,12 @@
 
       if (firstMissingField) {
         const [fieldId, message] = firstMissingField;
-        showError(message, fields[fieldId]);
+        showError(message, fields[fieldId], fieldId);
         return;
       }
 
       if (values.telefone.replace(/\D/g, "").length !== 11) {
-        showError("Informe o telefone no formato (00) 0.0000-0000.", fields.telefone);
-        return;
-      }
-
-      if (fields.email && values.email && !fields.email.checkValidity()) {
-        showError("Informe um e-mail válido ou deixe esse campo em branco.", fields.email);
+        showError("Informe o telefone no formato (00) 00000-0000.", fields.telefone, "telefone");
         return;
       }
 
@@ -418,18 +930,22 @@
         return;
       }
 
-      const detailLines = [];
+      const greeting =
+        values.area === "Direito Trabalhista"
+          ? "Olá. Preenchi o formulário do site e gostaria de orientação inicial em Direito Trabalhista."
+          : values.area === "Direito de Trânsito"
+            ? "Olá. Preenchi o formulário do site e gostaria de orientação inicial em Direito de Trânsito."
+            : "Olá. Preenchi o formulário do site e gostaria de orientação inicial.";
 
-      detailLines.push(`Área de atuação desejada: ${values.area}`);
-      detailLines.push(`Nome: ${values.nome}`);
-      detailLines.push(`Telefone / WhatsApp: ${values.telefone}`);
-      if (values.email) detailLines.push(`E-mail: ${values.email}`);
-      if (values.cidade) detailLines.push(`Cidade/UF: ${values.cidade}`);
-      detailLines.push("Mensagem:");
-      detailLines.push(values.mensagem);
-
-      const message = ["Olá, Dra. Rafaela! Você poderia me ajudar com meu caso?", "", ...detailLines]
-        .join("\n");
+      const message = [
+        greeting,
+        "",
+        `Área: ${values.area}`,
+        `Nome: ${values.nome}`,
+        `Telefone / WhatsApp: ${values.telefone}`,
+        `Prazo/urgência: ${values.prazo || FORM_DEFAULT_URGENCY}`,
+        `Resumo: ${values.mensagem}`,
+      ].join("\n");
 
       openWhatsApp(message);
     });
