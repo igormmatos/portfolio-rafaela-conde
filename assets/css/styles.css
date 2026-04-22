@@ -51,6 +51,12 @@
   --focus-outline: 3px solid rgba(197, 160, 89, 0.9);
   --transition-fast: 180ms ease;
   --transition-base: 240ms ease;
+  --reveal-duration-fast: 220ms;
+  --reveal-duration-base: 240ms;
+  --reveal-duration-slow: 260ms;
+  --reveal-duration-hero: 320ms;
+  --reveal-stagger-base: 20ms;
+  --reveal-stagger-step: 20ms;
 }
 
 html.dark {
@@ -4274,24 +4280,24 @@ html.dark .service-presence .services-partnership-kicker {
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-service-work .page-service-process-header[data-reveal] {
   opacity: 0;
   transform: translateY(8px);
   transition:
-    opacity 240ms ease,
-    transform 240ms ease;
+    opacity var(--reveal-duration-base) ease,
+    transform var(--reveal-duration-base) ease;
 }
 
 .js .page-service-work .service-columns-card-process[data-reveal] {
   opacity: 0;
   transform: translateY(12px) scale(0.98);
   transition:
-    opacity 300ms ease,
-    transform 300ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item {
@@ -4314,8 +4320,8 @@ html.dark .service-presence .services-partnership-kicker {
   transform: scaleY(0.72);
   transform-origin: center;
   transition:
-    opacity 420ms ease 140ms,
-    transform 420ms ease 140ms;
+    opacity var(--reveal-duration-slow) ease 80ms,
+    transform var(--reveal-duration-slow) ease 80ms;
 }
 
 .js .page-service-work .service-columns-card-process[data-reveal].is-revealed .service-columns-divider {
@@ -4324,27 +4330,27 @@ html.dark .service-presence .services-partnership-kicker {
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(1) {
-  transition-delay: 60ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(2) {
-  transition-delay: 120ms;
+  transition-delay: calc(var(--reveal-stagger-base) + var(--reveal-stagger-step));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(4) {
-  transition-delay: 240ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(5) {
-  transition-delay: 300ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 4));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(6) {
-  transition-delay: 360ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 5));
 }
 
 .js .page-service .page-hero-content[data-reveal] .page-service-hero-copy > * {
@@ -4354,8 +4360,8 @@ html.dark .service-presence .services-partnership-kicker {
 .js .page-service .page-hero-content[data-reveal] .page-service-hero-copy > * {
   transform: translateY(12px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > * {
@@ -4364,61 +4370,61 @@ html.dark .service-presence .services-partnership-kicker {
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(1) {
-  transition-delay: 40ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(2) {
-  transition-delay: 110ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(4) {
-  transition-delay: 250ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(5) {
-  transition-delay: 320ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 4));
 }
 
 .js .topics-grid[data-reveal] .topic-reveal-item {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 300ms ease-out,
-    transform 300ms ease-out;
+    opacity var(--reveal-duration-base) ease-out,
+    transform var(--reveal-duration-base) ease-out;
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(1) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 60ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(2) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 140ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(3) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 220ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(4) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 300ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(5) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 380ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 4));
 }
 
 html.dark .page-service .page-hero .section-kicker {
@@ -5807,38 +5813,38 @@ html.dark .page-service .faq-toggle {
 .js .page-about .page-hero-about .page-hero-media {
   opacity: 0;
   transform: translateY(12px);
-  animation: page-about-fade-up 420ms ease forwards;
+  animation: page-about-fade-up var(--reveal-duration-slow) ease forwards;
 }
 
 .js .page-about .page-hero-about .page-hero-title {
-  animation-delay: 70ms;
+  animation-delay: 40ms;
 }
 
 .js .page-about .page-hero-about .page-hero-text {
-  animation-delay: 140ms;
+  animation-delay: 80ms;
 }
 
 .js .page-about .page-about-hero-actions {
-  animation-delay: 210ms;
+  animation-delay: 120ms;
 }
 
 .js .page-about .page-hero-about .page-hero-media {
   transform: translateY(8px);
   animation-name: page-about-portrait-shell-in;
-  animation-duration: 520ms;
-  animation-delay: 120ms;
+  animation-duration: var(--reveal-duration-hero);
+  animation-delay: 90ms;
 }
 
 .js .page-about .page-hero-about .page-hero-portrait img {
-  animation: page-about-portrait-image-in 520ms ease 120ms both;
+  animation: page-about-portrait-image-in var(--reveal-duration-hero) ease 90ms both;
 }
 
 .js .page-about .about-page-content[data-reveal] > * {
   opacity: 0;
   transform: translateY(14px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > * {
@@ -5847,27 +5853,27 @@ html.dark .page-service .faq-toggle {
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(1) {
-  transition-delay: 60ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(2) {
-  transition-delay: 120ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(4) {
-  transition-delay: 240ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-about .about-card-frame[data-reveal] {
   opacity: 0;
   transform: translateY(18px);
   transition:
-    opacity 480ms ease,
-    transform 480ms ease;
+    opacity var(--reveal-duration-hero) ease,
+    transform var(--reveal-duration-hero) ease;
 }
 
 .js .page-about .about-card-frame[data-reveal].is-revealed {
@@ -5884,8 +5890,8 @@ html.dark .page-service .faq-toggle {
   opacity: 0;
   transform: translateY(16px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item {
@@ -5894,19 +5900,19 @@ html.dark .page-service .faq-toggle {
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(1) {
-  transition-delay: 80ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(2) {
-  transition-delay: 160ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(3) {
-  transition-delay: 240ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(4) {
-  transition-delay: 320ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-about .about-card-section[data-reveal],
@@ -5917,8 +5923,8 @@ html.dark .page-service .faq-toggle {
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 320ms ease,
-    transform 320ms ease;
+    opacity var(--reveal-duration-base) ease,
+    transform var(--reveal-duration-base) ease;
 }
 
 .js .page-about .about-card-section[data-reveal].is-revealed,
@@ -6520,8 +6526,8 @@ html.dark .page-about .footer-cta {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > * {
@@ -6530,19 +6536,19 @@ html.dark .page-about .footer-cta {
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(1) {
-  transition-delay: 40ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(2) {
-  transition-delay: 110ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(4) {
-  transition-delay: 250ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 html.dark .page-legal .legal-detail-header .section-kicker,

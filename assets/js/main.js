@@ -81,6 +81,58 @@
     window.setTimeout(runInitializer, timeout);
   };
 
+  const initializeRevealAnimations = () => {
+    const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
+
+    if (!revealElements.length) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => {
+        element.classList.add("is-revealed");
+      });
+      return;
+    }
+
+    const firstFoldRevealLine = window.innerHeight * 0.92;
+    revealElements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const isInitiallyVisible = rect.bottom > 0 && rect.top <= firstFoldRevealLine;
+
+      if (isInitiallyVisible) {
+        element.classList.add("is-revealed");
+      }
+    });
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -4% 0px",
+      },
+    );
+
+    revealElements.forEach((element) => {
+      if (element.classList.contains("is-revealed")) {
+        return;
+      }
+
+      revealObserver.observe(element);
+    });
+  };
+
   const initializeDeferredFeatures = () => {
   if (officeAddress && copyAddressButton && copyAddressStatus) {
     const copyAddressLabel = copyAddressButton.querySelector(".contact-address-action-label");
@@ -163,39 +215,6 @@
         );
       }
     });
-  }
-
-  const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
-
-  if (revealElements.length) {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      revealElements.forEach((element) => {
-        element.classList.add("is-revealed");
-      });
-    } else {
-      const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) {
-              return;
-            }
-
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          });
-        },
-        {
-          threshold: 0.2,
-          rootMargin: "0px 0px -8% 0px",
-        },
-      );
-
-      revealElements.forEach((element) => {
-        revealObserver.observe(element);
-      });
-    }
   }
 
   const animatedFaqItems = Array.from(document.querySelectorAll(".page-service .faq-item"));
@@ -1000,5 +1019,6 @@
 
   };
 
+  initializeRevealAnimations();
   initializeWhenIdleOrInteracted(initializeDeferredFeatures);
 })();
