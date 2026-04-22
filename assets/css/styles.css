@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+}
+
 :root {
   --font-sans: "Inter", sans-serif;
   --font-display: "Playfair Display", serif;
@@ -8,8 +24,8 @@
   --color-bg: #f3f4f6;
   --color-surface: #ffffff;
   --color-surface-alt: #ffffff;
-  --color-text: #374151;
-  --color-text-soft: #6b7280;
+  --color-text: #1f2937;
+  --color-text-soft: #4b5563;
   --color-text-strong: #111827;
   --color-border: #e5e7eb;
   --color-header-bg: rgba(255, 255, 255, 0.95);
@@ -35,6 +51,12 @@
   --focus-outline: 3px solid rgba(197, 160, 89, 0.9);
   --transition-fast: 180ms ease;
   --transition-base: 240ms ease;
+  --reveal-duration-fast: 160ms;
+  --reveal-duration-base: 170ms;
+  --reveal-duration-slow: 180ms;
+  --reveal-duration-hero: 190ms;
+  --reveal-stagger-base: 8ms;
+  --reveal-stagger-step: 12ms;
 }
 
 html.dark {
@@ -110,6 +132,19 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+.icon-svg {
+  width: 1.1em;
+  height: 1.1em;
+  display: inline-block;
+  vertical-align: middle;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
 .container {
@@ -347,6 +382,9 @@ html.dark .logo-dark {
 
 .theme-icon {
   font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .theme-icon-light {
@@ -374,7 +412,8 @@ html.dark .theme-icon-light {
   cursor: pointer;
 }
 
-.mobile-nav-toggle .material-icons-outlined {
+.mobile-nav-toggle .material-icons-outlined,
+.mobile-nav-toggle .icon-svg {
   font-size: 2rem;
 }
 
@@ -510,7 +549,8 @@ html.dark .hero-wave {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.hero-trust-pill .material-icons-outlined {
+.hero-trust-pill .material-icons-outlined,
+.hero-trust-pill .icon-svg {
   font-size: 0.95rem;
   color: var(--color-accent);
 }
@@ -547,7 +587,8 @@ html.dark .hero-wave {
   white-space: nowrap;
 }
 
-.hero-primary-cta .material-icons-outlined {
+.hero-primary-cta .material-icons-outlined,
+.hero-primary-cta .icon-svg {
   font-size: 1rem;
 }
 
@@ -631,7 +672,8 @@ html.dark .hero-wave {
   transition: transform var(--transition-fast);
 }
 
-.page-service-secondary-cta .material-icons-outlined {
+.page-service-secondary-cta .material-icons-outlined,
+.page-service-secondary-cta .icon-svg {
   font-size: 1rem;
   transition: transform var(--transition-fast);
 }
@@ -650,7 +692,9 @@ html.dark .hero-wave {
 }
 
 .page-service-secondary-cta:hover .material-icons-outlined,
-.page-service-secondary-cta:focus-visible .material-icons-outlined {
+.page-service-secondary-cta:focus-visible .material-icons-outlined,
+.page-service-secondary-cta:hover .icon-svg,
+.page-service-secondary-cta:focus-visible .icon-svg {
   transform: translateY(2px);
 }
 
@@ -1756,25 +1800,97 @@ html.dark .testimonial-card.has-hidden-content:not(.is-expanded) .testimonial-te
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.65rem;
 }
 
 .testimonial-dot {
-  width: 0.72rem;
-  height: 0.72rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
   border: none;
   border-radius: 999px;
-  background: rgba(19, 62, 107, 0.18);
-  transition: width 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.testimonial-dot.is-active {
+.testimonial-dot::before {
+  content: "";
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: rgba(19, 62, 107, 0.28);
+  transition:
+    width 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.testimonial-dot.is-active::before {
   width: 2rem;
   background: var(--color-primary);
 }
 
 .testimonial-dot:hover {
-  transform: scale(1.05);
+  transform: translateY(-1px);
+}
+
+.testimonial-dot:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .testimonial-carousel-footer {
+    grid-template-columns: 2.4rem minmax(0, 1fr) 2.4rem;
+    gap: 0.45rem;
+  }
+
+  .testimonial-control {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .testimonial-dots {
+    min-width: 0;
+    flex-wrap: nowrap;
+    gap: 0.28rem;
+    overflow: hidden;
+  }
+
+  .testimonial-dot {
+    width: 1.34rem;
+    height: 1.34rem;
+    flex: 0 0 auto;
+  }
+
+  .testimonial-dot::before {
+    width: 0.52rem;
+    height: 0.52rem;
+  }
+
+  .testimonial-dot.is-active::before {
+    width: 1.1rem;
+  }
+}
+
+@media (max-width: 389px) {
+  .testimonial-carousel-footer {
+    gap: 0.35rem;
+  }
+
+  .testimonial-dots {
+    gap: 0.22rem;
+  }
+
+  .testimonial-dot {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }
 
 .contact {
@@ -2336,7 +2452,7 @@ html.dark .check-input[aria-invalid="true"] {
 
 .footer-text {
   margin: 0;
-  color: #9ca3af;
+  color: #d1d5db;
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -2366,7 +2482,7 @@ html.dark .check-input[aria-invalid="true"] {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
-  color: #9ca3af;
+  color: #d1d5db;
   font-size: 0.9rem;
   transition: color 0.2s ease;
 }
@@ -2419,7 +2535,7 @@ html.dark .check-input[aria-invalid="true"] {
 }
 
 .footer-meta {
-  color: #9ca3af;
+  color: #d1d5db;
 }
 
 .mobile-whatsapp-cta {
@@ -3022,6 +3138,9 @@ html.dark .service-card-primary {
 .topics-col {
   display: grid;
   align-content: start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .topics-col + .topics-col {
@@ -3036,11 +3155,12 @@ html.dark .service-card-primary {
   padding: 1rem 0;
 }
 
-.topic-divider {
-  width: 100%;
-  margin: 0;
-  border: 0;
+.topic-item + .topic-item {
   border-top: 1px solid rgba(19, 62, 107, 0.12);
+}
+
+.topic-divider {
+  display: none;
 }
 
 .topic-icon {
@@ -3724,7 +3844,16 @@ html.dark .service-presence .services-partnership-kicker {
   margin-top: 0.15rem;
 }
 
+.page-service .topic-item {
+  display: block;
+}
+
 .page-service .topic-item-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  width: 100%;
   color: inherit;
   text-decoration: none;
   border-radius: 0.75rem;
@@ -4151,24 +4280,24 @@ html.dark .service-presence .services-partnership-kicker {
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-service-work .page-service-process-header[data-reveal] {
   opacity: 0;
   transform: translateY(8px);
   transition:
-    opacity 240ms ease,
-    transform 240ms ease;
+    opacity var(--reveal-duration-base) ease,
+    transform var(--reveal-duration-base) ease;
 }
 
 .js .page-service-work .service-columns-card-process[data-reveal] {
   opacity: 0;
   transform: translateY(12px) scale(0.98);
   transition:
-    opacity 300ms ease,
-    transform 300ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item {
@@ -4191,8 +4320,8 @@ html.dark .service-presence .services-partnership-kicker {
   transform: scaleY(0.72);
   transform-origin: center;
   transition:
-    opacity 420ms ease 140ms,
-    transform 420ms ease 140ms;
+    opacity var(--reveal-duration-slow) ease 80ms,
+    transform var(--reveal-duration-slow) ease 80ms;
 }
 
 .js .page-service-work .service-columns-card-process[data-reveal].is-revealed .service-columns-divider {
@@ -4201,27 +4330,27 @@ html.dark .service-presence .services-partnership-kicker {
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(1) {
-  transition-delay: 60ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(2) {
-  transition-delay: 120ms;
+  transition-delay: calc(var(--reveal-stagger-base) + var(--reveal-stagger-step));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(4) {
-  transition-delay: 240ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(5) {
-  transition-delay: 300ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 4));
 }
 
 .js .page-service [data-reveal].is-revealed .service-reveal-item:nth-child(6) {
-  transition-delay: 360ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 5));
 }
 
 .js .page-service .page-hero-content[data-reveal] .page-service-hero-copy > * {
@@ -4231,8 +4360,8 @@ html.dark .service-presence .services-partnership-kicker {
 .js .page-service .page-hero-content[data-reveal] .page-service-hero-copy > * {
   transform: translateY(12px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > * {
@@ -4241,61 +4370,61 @@ html.dark .service-presence .services-partnership-kicker {
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(1) {
-  transition-delay: 40ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(2) {
-  transition-delay: 110ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(4) {
-  transition-delay: 250ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-service .page-hero-content[data-reveal].is-revealed .page-service-hero-copy > :nth-child(5) {
-  transition-delay: 320ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 4));
 }
 
 .js .topics-grid[data-reveal] .topic-reveal-item {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 300ms ease-out,
-    transform 300ms ease-out;
+    opacity var(--reveal-duration-base) ease-out,
+    transform var(--reveal-duration-base) ease-out;
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(1) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 60ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(2) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 140ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(3) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 220ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(4) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 300ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .topics-grid[data-reveal].is-revealed .topics-col .topic-item:nth-of-type(5) {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 380ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 4));
 }
 
 html.dark .page-service .page-hero .section-kicker {
@@ -5684,38 +5813,38 @@ html.dark .page-service .faq-toggle {
 .js .page-about .page-hero-about .page-hero-media {
   opacity: 0;
   transform: translateY(12px);
-  animation: page-about-fade-up 420ms ease forwards;
+  animation: page-about-fade-up var(--reveal-duration-slow) ease forwards;
 }
 
 .js .page-about .page-hero-about .page-hero-title {
-  animation-delay: 70ms;
+  animation-delay: 20ms;
 }
 
 .js .page-about .page-hero-about .page-hero-text {
-  animation-delay: 140ms;
+  animation-delay: 40ms;
 }
 
 .js .page-about .page-about-hero-actions {
-  animation-delay: 210ms;
+  animation-delay: 60ms;
 }
 
 .js .page-about .page-hero-about .page-hero-media {
   transform: translateY(8px);
   animation-name: page-about-portrait-shell-in;
-  animation-duration: 520ms;
-  animation-delay: 120ms;
+  animation-duration: var(--reveal-duration-hero);
+  animation-delay: 80ms;
 }
 
 .js .page-about .page-hero-about .page-hero-portrait img {
-  animation: page-about-portrait-image-in 520ms ease 120ms both;
+  animation: page-about-portrait-image-in var(--reveal-duration-hero) ease 100ms both;
 }
 
 .js .page-about .about-page-content[data-reveal] > * {
   opacity: 0;
   transform: translateY(14px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > * {
@@ -5724,27 +5853,27 @@ html.dark .page-service .faq-toggle {
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(1) {
-  transition-delay: 60ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(2) {
-  transition-delay: 120ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-about .about-page-content[data-reveal].is-revealed > :nth-child(4) {
-  transition-delay: 240ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-about .about-card-frame[data-reveal] {
   opacity: 0;
   transform: translateY(18px);
   transition:
-    opacity 480ms ease,
-    transform 480ms ease;
+    opacity var(--reveal-duration-hero) ease,
+    transform var(--reveal-duration-hero) ease;
 }
 
 .js .page-about .about-card-frame[data-reveal].is-revealed {
@@ -5761,8 +5890,8 @@ html.dark .page-service .faq-toggle {
   opacity: 0;
   transform: translateY(16px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item {
@@ -5771,19 +5900,19 @@ html.dark .page-service .faq-toggle {
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(1) {
-  transition-delay: 80ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(2) {
-  transition-delay: 160ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(3) {
-  transition-delay: 240ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-about .philosophy-pillars[data-reveal].is-revealed .about-reveal-item:nth-child(4) {
-  transition-delay: 320ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 .js .page-about .about-card-section[data-reveal],
@@ -5794,8 +5923,8 @@ html.dark .page-service .faq-toggle {
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 320ms ease,
-    transform 320ms ease;
+    opacity var(--reveal-duration-base) ease,
+    transform var(--reveal-duration-base) ease;
 }
 
 .js .page-about .about-card-section[data-reveal].is-revealed,
@@ -6397,8 +6526,8 @@ html.dark .page-about .footer-cta {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity var(--reveal-duration-slow) ease,
+    transform var(--reveal-duration-slow) ease;
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > * {
@@ -6407,19 +6536,19 @@ html.dark .page-about .footer-cta {
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(1) {
-  transition-delay: 40ms;
+  transition-delay: var(--reveal-stagger-base);
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(2) {
-  transition-delay: 110ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 1));
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(3) {
-  transition-delay: 180ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 2));
 }
 
 .js .page-legal .page-hero-content[data-reveal].is-revealed > :nth-child(4) {
-  transition-delay: 250ms;
+  transition-delay: calc(var(--reveal-stagger-base) + (var(--reveal-stagger-step) * 3));
 }
 
 html.dark .page-legal .legal-detail-header .section-kicker,

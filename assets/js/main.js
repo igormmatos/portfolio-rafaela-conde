@@ -52,6 +52,88 @@
     });
   }
 
+  const initializeWhenIdleOrInteracted = (initializer, timeout = 1400) => {
+    let hasInitialized = false;
+    const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"];
+
+    const runInitializer = () => {
+      if (hasInitialized) {
+        return;
+      }
+
+      hasInitialized = true;
+      interactionEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, runInitializer, interactionListenerOptions);
+      });
+      initializer();
+    };
+
+    const interactionListenerOptions = { passive: true, once: true };
+    interactionEvents.forEach((eventName) => {
+      window.addEventListener(eventName, runInitializer, interactionListenerOptions);
+    });
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(runInitializer, { timeout });
+      return;
+    }
+
+    window.setTimeout(runInitializer, timeout);
+  };
+
+  const initializeRevealAnimations = () => {
+    const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
+
+    if (!revealElements.length) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => {
+        element.classList.add("is-revealed");
+      });
+      return;
+    }
+
+    const firstFoldRevealLine = window.innerHeight * 0.92;
+    revealElements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const isInitiallyVisible = rect.bottom > 0 && rect.top <= firstFoldRevealLine;
+
+      if (isInitiallyVisible) {
+        element.classList.add("is-revealed");
+      }
+    });
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -4% 0px",
+      },
+    );
+
+    revealElements.forEach((element) => {
+      if (element.classList.contains("is-revealed")) {
+        return;
+      }
+
+      revealObserver.observe(element);
+    });
+  };
+
+  const initializeDeferredFeatures = () => {
   if (officeAddress && copyAddressButton && copyAddressStatus) {
     const copyAddressLabel = copyAddressButton.querySelector(".contact-address-action-label");
     const defaultCopyAddressLabel =
@@ -135,39 +217,6 @@
     });
   }
 
-  const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
-
-  if (revealElements.length) {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      revealElements.forEach((element) => {
-        element.classList.add("is-revealed");
-      });
-    } else {
-      const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) {
-              return;
-            }
-
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          });
-        },
-        {
-          threshold: 0.2,
-          rootMargin: "0px 0px -8% 0px",
-        },
-      );
-
-      revealElements.forEach((element) => {
-        revealObserver.observe(element);
-      });
-    }
-  }
-
   const animatedFaqItems = Array.from(document.querySelectorAll(".page-service .faq-item"));
 
   if (animatedFaqItems.length) {
@@ -209,13 +258,12 @@
         return;
       }
 
-      const startHeight = answer.getBoundingClientRect().height;
-
       if (shouldOpen) {
         details.open = true;
       }
 
-      const endHeight = shouldOpen ? inner.getBoundingClientRect().height : 0;
+      const startHeight = answer.offsetHeight;
+      const endHeight = shouldOpen ? inner.scrollHeight : 0;
 
       answer.dataset.animating = "true";
       setFaqExpandedState(summary, shouldOpen);
@@ -428,6 +476,8 @@
     let currentPage = 0;
     let totalPages = 0;
     let pageStartIndices = [0];
+    let slideOffsets = [0];
+    let trackUpdateFrame = 0;
     let autoplayIntervalId = 0;
     let autoplayResumeTimeoutId = 0;
 
@@ -627,16 +677,29 @@
       });
     };
 
+    const measureSlideOffsets = () => {
+      slideOffsets = testimonialCards.map((card) => card.offsetLeft);
+    };
+
     const updateTrackPosition = () => {
       testimonialCarousel.style.setProperty("--testimonial-slides-per-view", String(slidesPerView));
-      syncTestimonialToggles();
 
       const firstVisibleIndex = pageStartIndices[currentPage] ?? 0;
-      const firstVisibleCard = testimonialCards[firstVisibleIndex];
-      const offset = firstVisibleCard?.offsetLeft ?? 0;
+      const offset = slideOffsets[firstVisibleIndex] ?? 0;
 
       testimonialTrack.style.transform = `translateX(-${offset}px)`;
       updateDots();
+    };
+
+    const scheduleTrackUpdate = () => {
+      if (trackUpdateFrame) {
+        return;
+      }
+
+      trackUpdateFrame = window.requestAnimationFrame(() => {
+        trackUpdateFrame = 0;
+        updateTrackPosition();
+      });
     };
 
     const goToPage = (nextPage) => {
@@ -645,7 +708,7 @@
       }
 
       currentPage = (nextPage + totalPages) % totalPages;
-      updateTrackPosition();
+      scheduleTrackUpdate();
     };
 
     const syncCarouselLayout = () => {
@@ -657,6 +720,8 @@
       currentPage = getNearestPageIndex(previousFirstVisibleIndex);
 
       buildDots();
+      syncTestimonialToggles();
+      measureSlideOffsets();
       updateTrackPosition();
     };
 
@@ -670,7 +735,8 @@
       toggle.addEventListener("click", () => {
         card.classList.toggle("is-expanded");
         syncTestimonialToggle(card, index);
-        updateTrackPosition();
+        measureSlideOffsets();
+        scheduleTrackUpdate();
       });
     });
 
@@ -950,4 +1016,9 @@
       openWhatsApp(message);
     });
   }
+
+  };
+
+  initializeRevealAnimations();
+  initializeWhenIdleOrInteracted(initializeDeferredFeatures);
 })();

@@ -18,26 +18,70 @@
     <meta property="og:url" content="https://rafaelaconde.adv.br/sobre/" />
     <title>Sobre | Dra. Rafaela Condé</title>
     <link href="../assets/images/favicon.png" rel="icon" type="image/png" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
-      rel="stylesheet"
+        <link
+      rel="preload"
+      href="../assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
-    <link href="../assets/css/styles.css?v=20260416-4" rel="stylesheet" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N1Q726MW35"></script>
+    <link href="../assets/css/styles.css?v=20260422-1" rel="stylesheet" />
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+      (() => {
+        const GA_ID = "G-N1Q726MW35";
+        const ICONS_HREF = "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined";
+        let didLoad = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
+        window.gtag("js", new Date());
 
-      gtag("config", "G-N1Q726MW35");
+        const loadDeferredThirdParties = () => {
+          if (didLoad) {
+            return;
+          }
+
+          didLoad = true;
+          const iconsLink = document.createElement("link");
+          iconsLink.rel = "stylesheet";
+          iconsLink.href = ICONS_HREF;
+          document.head.appendChild(iconsLink);
+
+          const gaScript = document.createElement("script");
+          gaScript.async = true;
+          gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+          gaScript.onload = () => {
+            window.gtag("config", GA_ID, { transport_type: "beacon" });
+          };
+          document.head.appendChild(gaScript);
+        };
+
+        const triggerLoad = () => {
+          loadDeferredThirdParties();
+          interactionEvents.forEach((eventName) => {
+            window.removeEventListener(eventName, triggerLoad, interactionOptions);
+          });
+        };
+
+        const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"];
+        const interactionOptions = { passive: true, once: true };
+        interactionEvents.forEach((eventName) => {
+          window.addEventListener(eventName, triggerLoad, interactionOptions);
+        });
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(triggerLoad, { timeout: 2500 });
+          return;
+        }
+
+        window.setTimeout(triggerLoad, 2500);
+      })();
     </script>
   </head>
   <body class="page-about">
@@ -45,22 +89,42 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="../" aria-label="Voltar para a página inicial">
-          <img
-            alt=""
-            aria-hidden="true"
-            class="brand-logo-image logo-light"
-            height="480"
-            src="../assets/images/min-logo-horizontal-light-rc-no-bg.png"
-            width="1680"
-          />
-          <img
-            alt=""
-            aria-hidden="true"
-            class="brand-logo-image logo-dark"
-            height="480"
-            src="../assets/images/min-logo-horizontal-dark-rc-no-bg.png"
-            width="1680"
-          />
+          <picture>
+<source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-light-320.webp 320w,
+                ../assets/images/optimized/logo-light-640.webp 640w
+              "
+              type="image/webp"
+            />
+            <img
+              alt=""
+              aria-hidden="true"
+              class="brand-logo-image logo-light"
+              height="171"
+              src="../assets/images/min-logo-horizontal-light-rc-no-bg.png"
+              width="689"
+            />
+          </picture>
+          <picture>
+<source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-dark-320.webp 320w,
+                ../assets/images/optimized/logo-dark-640.webp 640w
+              "
+              type="image/webp"
+            />
+            <img
+              alt=""
+              aria-hidden="true"
+              class="brand-logo-image logo-dark"
+              height="170"
+              src="../assets/images/min-logo-horizontal-dark-rc-no-bg.png"
+              width="700"
+            />
+          </picture>
           <span class="sr-only">Dra. Rafaela Condé | Pacheco &amp; Reis Advogados</span>
         </a>
         <nav aria-label="Navegação principal" class="desktop-nav">
@@ -69,12 +133,16 @@
           <a aria-current="page" class="nav-link" href="../sobre/">Sobre</a>
           <a class="nav-link" href="../#contato">Contato</a>
           <button aria-label="Alternar tema" class="theme-toggle" id="theme-toggle" type="button">
-            <span class="material-icons-outlined theme-icon theme-icon-dark">dark_mode</span>
-            <span class="material-icons-outlined theme-icon theme-icon-light">light_mode</span>
+            <span class="theme-icon theme-icon-dark" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" /></svg>
+            </span>
+            <span class="theme-icon theme-icon-light" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" /></svg>
+            </span>
           </button>
         </nav>
         <button aria-controls="mobile-nav" aria-expanded="false" aria-label="Abrir menu de navegação" class="mobile-nav-toggle" id="mobile-nav-toggle" type="button">
-          <span class="material-icons-outlined">menu</span>
+          <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
         </button>
       </div>
       <nav aria-label="Navegação mobile" class="mobile-nav" id="mobile-nav">
@@ -106,30 +174,50 @@
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span class="material-icons-outlined">chat</span>
+                  <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-8.5 8.5H4l1.8-3.6A8.5 8.5 0 1 1 21 12Z" /></svg>
                   <span>Iniciar atendimento pelo WhatsApp</span>
                 </a>
                 <a class="hero-secondary-cta page-service-secondary-cta" href="#trajetoria">
                   <span>Entender a forma de atuação</span>
-                  <span aria-hidden="true" class="material-icons-outlined">south</span>
+                  <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
                 </a>
               </div>
             </div>
             <div class="page-hero-media">
               <div class="page-hero-portrait">
-                <img
-                  alt="Rafaela Condé em retrato institucional"
-                  decoding="async"
-                  fetchpriority="high"
-                  height="5760"
-                  src="../assets/images/rafaela-perfil.png"
-                  width="3840"
-                />
+                <picture>
+                  <source
+                    sizes="(max-width: 767px) 78vw, (max-width: 1023px) 46vw, 30rem"
+                    srcset="
+                      ../assets/images/optimized/hero-about-480.avif 480w,
+                      ../assets/images/optimized/hero-about-768.avif 768w,
+                      ../assets/images/optimized/hero-about-1024.avif 1024w
+                    "
+                    type="image/avif"
+                  />
+                  <source
+                    sizes="(max-width: 767px) 78vw, (max-width: 1023px) 46vw, 30rem"
+                    srcset="
+                      ../assets/images/optimized/hero-about-480.webp 480w,
+                      ../assets/images/optimized/hero-about-768.webp 768w,
+                      ../assets/images/optimized/hero-about-1024.webp 1024w
+                    "
+                    type="image/webp"
+                  />
+                  <img
+                    alt="Rafaela Condé em retrato institucional"
+                    decoding="async"
+                    fetchpriority="high"
+                    height="1024"
+                    src="../assets/images/optimized/hero-about-768.webp"
+                    width="572"
+                  />
+                </picture>
               </div>
             </div>
           </div>
           <a class="page-about-hero-continuation" href="#trajetoria" aria-label="Ir para a próxima seção">
-            <span aria-hidden="true" class="material-icons-outlined">keyboard_arrow_down</span>
+            <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
           </a>
         </div>
       </section>
@@ -369,6 +457,6 @@
       </div>
     </footer>
 
-    <script src="../assets/js/main.js?v=20260409-4"></script>
+    <script defer src="../assets/js/main.js?v=20260422-1"></script>
   </body>
 </html>

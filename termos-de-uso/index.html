@@ -11,26 +11,70 @@
     <link rel="canonical" href="https://rafaelaconde.adv.br/termos-de-uso/" />
     <title>Condições de Uso do Site | Dra. Rafaela Condé</title>
     <link href="../assets/images/favicon.png" rel="icon" type="image/png" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
-      rel="stylesheet"
+        <link
+      rel="preload"
+      href="../assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
-    <link href="../assets/css/styles.css?v=20260416-7" rel="stylesheet" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N1Q726MW35"></script>
+    <link href="../assets/css/styles.css?v=20260422-1" rel="stylesheet" />
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+      (() => {
+        const GA_ID = "G-N1Q726MW35";
+        const ICONS_HREF = "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined";
+        let didLoad = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
+        window.gtag("js", new Date());
 
-      gtag("config", "G-N1Q726MW35");
+        const loadDeferredThirdParties = () => {
+          if (didLoad) {
+            return;
+          }
+
+          didLoad = true;
+          const iconsLink = document.createElement("link");
+          iconsLink.rel = "stylesheet";
+          iconsLink.href = ICONS_HREF;
+          document.head.appendChild(iconsLink);
+
+          const gaScript = document.createElement("script");
+          gaScript.async = true;
+          gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+          gaScript.onload = () => {
+            window.gtag("config", GA_ID, { transport_type: "beacon" });
+          };
+          document.head.appendChild(gaScript);
+        };
+
+        const triggerLoad = () => {
+          loadDeferredThirdParties();
+          interactionEvents.forEach((eventName) => {
+            window.removeEventListener(eventName, triggerLoad, interactionOptions);
+          });
+        };
+
+        const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"];
+        const interactionOptions = { passive: true, once: true };
+        interactionEvents.forEach((eventName) => {
+          window.addEventListener(eventName, triggerLoad, interactionOptions);
+        });
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(triggerLoad, { timeout: 2500 });
+          return;
+        }
+
+        window.setTimeout(triggerLoad, 2500);
+      })();
     </script>
   </head>
   <body class="page-legal page-terms">
@@ -38,22 +82,42 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="../" aria-label="Voltar para a página inicial">
-          <img
-            alt=""
-            aria-hidden="true"
-            class="brand-logo-image logo-light"
-            height="480"
-            src="../assets/images/min-logo-horizontal-light-rc-no-bg.png"
-            width="1680"
-          />
-          <img
-            alt=""
-            aria-hidden="true"
-            class="brand-logo-image logo-dark"
-            height="480"
-            src="../assets/images/min-logo-horizontal-dark-rc-no-bg.png"
-            width="1680"
-          />
+          <picture>
+<source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-light-320.webp 320w,
+                ../assets/images/optimized/logo-light-640.webp 640w
+              "
+              type="image/webp"
+            />
+            <img
+              alt=""
+              aria-hidden="true"
+              class="brand-logo-image logo-light"
+              height="171"
+              src="../assets/images/min-logo-horizontal-light-rc-no-bg.png"
+              width="689"
+            />
+          </picture>
+          <picture>
+<source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-dark-320.webp 320w,
+                ../assets/images/optimized/logo-dark-640.webp 640w
+              "
+              type="image/webp"
+            />
+            <img
+              alt=""
+              aria-hidden="true"
+              class="brand-logo-image logo-dark"
+              height="170"
+              src="../assets/images/min-logo-horizontal-dark-rc-no-bg.png"
+              width="700"
+            />
+          </picture>
           <span class="sr-only">Dra. Rafaela Condé | Pacheco &amp; Reis Advogados</span>
         </a>
       </div>
@@ -513,6 +577,6 @@
       </div>
     </footer>
 
-    <script src="../assets/js/main.js?v=20260409-4"></script>
+    <script defer src="../assets/js/main.js?v=20260422-1"></script>
   </body>
 </html>
