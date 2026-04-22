@@ -51,12 +51,12 @@
   --focus-outline: 3px solid rgba(197, 160, 89, 0.9);
   --transition-fast: 180ms ease;
   --transition-base: 240ms ease;
-  --reveal-duration-fast: 220ms;
-  --reveal-duration-base: 240ms;
-  --reveal-duration-slow: 260ms;
-  --reveal-duration-hero: 320ms;
-  --reveal-stagger-base: 20ms;
-  --reveal-stagger-step: 20ms;
+  --reveal-duration-fast: 160ms;
+  --reveal-duration-base: 170ms;
+  --reveal-duration-slow: 180ms;
+  --reveal-duration-hero: 190ms;
+  --reveal-stagger-base: 8ms;
+  --reveal-stagger-step: 12ms;
 }
 
 html.dark {
@@ -5817,26 +5817,26 @@ html.dark .page-service .faq-toggle {
 }
 
 .js .page-about .page-hero-about .page-hero-title {
-  animation-delay: 40ms;
+  animation-delay: 20ms;
 }
 
 .js .page-about .page-hero-about .page-hero-text {
-  animation-delay: 80ms;
+  animation-delay: 40ms;
 }
 
 .js .page-about .page-about-hero-actions {
-  animation-delay: 120ms;
+  animation-delay: 60ms;
 }
 
 .js .page-about .page-hero-about .page-hero-media {
   transform: translateY(8px);
   animation-name: page-about-portrait-shell-in;
   animation-duration: var(--reveal-duration-hero);
-  animation-delay: 90ms;
+  animation-delay: 80ms;
 }
 
 .js .page-about .page-hero-about .page-hero-portrait img {
-  animation: page-about-portrait-image-in var(--reveal-duration-hero) ease 90ms both;
+  animation: page-about-portrait-image-in var(--reveal-duration-hero) ease 100ms both;
 }
 
 .js .page-about .about-page-content[data-reveal] > * {
