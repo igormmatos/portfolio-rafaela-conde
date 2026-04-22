@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+}
+
 :root {
   --font-sans: "Inter", sans-serif;
   --font-display: "Playfair Display", serif;
@@ -8,8 +24,8 @@
   --color-bg: #f3f4f6;
   --color-surface: #ffffff;
   --color-surface-alt: #ffffff;
-  --color-text: #374151;
-  --color-text-soft: #6b7280;
+  --color-text: #1f2937;
+  --color-text-soft: #4b5563;
   --color-text-strong: #111827;
   --color-border: #e5e7eb;
   --color-header-bg: rgba(255, 255, 255, 0.95);
@@ -110,6 +126,19 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+.icon-svg {
+  width: 1.1em;
+  height: 1.1em;
+  display: inline-block;
+  vertical-align: middle;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
 .container {
@@ -347,6 +376,9 @@ html.dark .logo-dark {
 
 .theme-icon {
   font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .theme-icon-light {
@@ -374,7 +406,8 @@ html.dark .theme-icon-light {
   cursor: pointer;
 }
 
-.mobile-nav-toggle .material-icons-outlined {
+.mobile-nav-toggle .material-icons-outlined,
+.mobile-nav-toggle .icon-svg {
   font-size: 2rem;
 }
 
@@ -510,7 +543,8 @@ html.dark .hero-wave {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.hero-trust-pill .material-icons-outlined {
+.hero-trust-pill .material-icons-outlined,
+.hero-trust-pill .icon-svg {
   font-size: 0.95rem;
   color: var(--color-accent);
 }
@@ -547,7 +581,8 @@ html.dark .hero-wave {
   white-space: nowrap;
 }
 
-.hero-primary-cta .material-icons-outlined {
+.hero-primary-cta .material-icons-outlined,
+.hero-primary-cta .icon-svg {
   font-size: 1rem;
 }
 
@@ -631,7 +666,8 @@ html.dark .hero-wave {
   transition: transform var(--transition-fast);
 }
 
-.page-service-secondary-cta .material-icons-outlined {
+.page-service-secondary-cta .material-icons-outlined,
+.page-service-secondary-cta .icon-svg {
   font-size: 1rem;
   transition: transform var(--transition-fast);
 }
@@ -650,7 +686,9 @@ html.dark .hero-wave {
 }
 
 .page-service-secondary-cta:hover .material-icons-outlined,
-.page-service-secondary-cta:focus-visible .material-icons-outlined {
+.page-service-secondary-cta:focus-visible .material-icons-outlined,
+.page-service-secondary-cta:hover .icon-svg,
+.page-service-secondary-cta:focus-visible .icon-svg {
   transform: translateY(2px);
 }
 
@@ -1756,25 +1794,97 @@ html.dark .testimonial-card.has-hidden-content:not(.is-expanded) .testimonial-te
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.65rem;
 }
 
 .testimonial-dot {
-  width: 0.72rem;
-  height: 0.72rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
   border: none;
   border-radius: 999px;
-  background: rgba(19, 62, 107, 0.18);
-  transition: width 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.testimonial-dot.is-active {
+.testimonial-dot::before {
+  content: "";
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: rgba(19, 62, 107, 0.28);
+  transition:
+    width 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.testimonial-dot.is-active::before {
   width: 2rem;
   background: var(--color-primary);
 }
 
 .testimonial-dot:hover {
-  transform: scale(1.05);
+  transform: translateY(-1px);
+}
+
+.testimonial-dot:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .testimonial-carousel-footer {
+    grid-template-columns: 2.4rem minmax(0, 1fr) 2.4rem;
+    gap: 0.45rem;
+  }
+
+  .testimonial-control {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .testimonial-dots {
+    min-width: 0;
+    flex-wrap: nowrap;
+    gap: 0.28rem;
+    overflow: hidden;
+  }
+
+  .testimonial-dot {
+    width: 1.34rem;
+    height: 1.34rem;
+    flex: 0 0 auto;
+  }
+
+  .testimonial-dot::before {
+    width: 0.52rem;
+    height: 0.52rem;
+  }
+
+  .testimonial-dot.is-active::before {
+    width: 1.1rem;
+  }
+}
+
+@media (max-width: 389px) {
+  .testimonial-carousel-footer {
+    gap: 0.35rem;
+  }
+
+  .testimonial-dots {
+    gap: 0.22rem;
+  }
+
+  .testimonial-dot {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }
 
 .contact {
@@ -2336,7 +2446,7 @@ html.dark .check-input[aria-invalid="true"] {
 
 .footer-text {
   margin: 0;
-  color: #9ca3af;
+  color: #d1d5db;
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -2366,7 +2476,7 @@ html.dark .check-input[aria-invalid="true"] {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
-  color: #9ca3af;
+  color: #d1d5db;
   font-size: 0.9rem;
   transition: color 0.2s ease;
 }
@@ -2419,7 +2529,7 @@ html.dark .check-input[aria-invalid="true"] {
 }
 
 .footer-meta {
-  color: #9ca3af;
+  color: #d1d5db;
 }
 
 .mobile-whatsapp-cta {
@@ -3022,6 +3132,9 @@ html.dark .service-card-primary {
 .topics-col {
   display: grid;
   align-content: start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .topics-col + .topics-col {
@@ -3036,11 +3149,12 @@ html.dark .service-card-primary {
   padding: 1rem 0;
 }
 
-.topic-divider {
-  width: 100%;
-  margin: 0;
-  border: 0;
+.topic-item + .topic-item {
   border-top: 1px solid rgba(19, 62, 107, 0.12);
+}
+
+.topic-divider {
+  display: none;
 }
 
 .topic-icon {
@@ -3724,7 +3838,16 @@ html.dark .service-presence .services-partnership-kicker {
   margin-top: 0.15rem;
 }
 
+.page-service .topic-item {
+  display: block;
+}
+
 .page-service .topic-item-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  width: 100%;
   color: inherit;
   text-decoration: none;
   border-radius: 0.75rem;

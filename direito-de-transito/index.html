@@ -18,26 +18,79 @@
     <meta property="og:url" content="https://rafaelaconde.adv.br/direito-de-transito/" />
     <title>Direito de Trânsito em Juiz de Fora/MG | Dra. Rafaela Condé</title>
     <link href="../assets/images/favicon.png" rel="icon" type="image/png" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
-      rel="stylesheet"
+        <link
+      rel="preload"
+      href="../assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-      rel="stylesheet"
+      rel="preload"
+      href="../assets/fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
-    <link href="../assets/css/styles.css?v=20260416-5" rel="stylesheet" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N1Q726MW35"></script>
+    <style>
+      :root{--font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--font-display:"Playfair Display",Georgia,"Times New Roman",serif}*{box-sizing:border-box}body{margin:0;font-family:var(--font-sans);line-height:1.65;background:#f3f4f6;color:#1f2937}img,svg{display:block;max-width:100%}.container{width:min(1280px,calc(100% - 2rem));margin-inline:auto}.site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);border-bottom:1px solid #e5e7eb}.header-inner{min-height:5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}.brand-logo-image{width:clamp(9rem,24vw,14rem);height:auto}.hero,.page-hero{background:linear-gradient(135deg,#0a2342,#133e6b);color:#fff}.hero-content,.page-hero-content{padding:2.75rem 0}.hero-title,.page-hero-title{margin:0 0 1rem;font-family:var(--font-display);line-height:1.12;letter-spacing:-.02em}.hero-role,.page-hero-text{margin:0;max-width:36rem;color:rgba(255,255,255,.88)}@media (min-width:768px){.container{width:min(1280px,calc(100% - 3rem))}}
+    </style>
+    <link
+      as="style"
+      href="../assets/css/styles.css?v=20260422-1"
+      onload="this.onload=null;this.rel='stylesheet'"
+      rel="preload"
+    />
+    <noscript><link href="../assets/css/styles.css?v=20260422-1" rel="stylesheet" /></noscript>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+      (() => {
+        const GA_ID = "G-N1Q726MW35";
+        const ICONS_HREF = "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined";
+        let didLoad = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
+        window.gtag("js", new Date());
 
-      gtag("config", "G-N1Q726MW35");
+        const loadDeferredThirdParties = () => {
+          if (didLoad) {
+            return;
+          }
+
+          didLoad = true;
+          const iconsLink = document.createElement("link");
+          iconsLink.rel = "stylesheet";
+          iconsLink.href = ICONS_HREF;
+          document.head.appendChild(iconsLink);
+
+          const gaScript = document.createElement("script");
+          gaScript.async = true;
+          gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+          gaScript.onload = () => {
+            window.gtag("config", GA_ID, { transport_type: "beacon" });
+          };
+          document.head.appendChild(gaScript);
+        };
+
+        const triggerLoad = () => {
+          loadDeferredThirdParties();
+          interactionEvents.forEach((eventName) => {
+            window.removeEventListener(eventName, triggerLoad, interactionOptions);
+          });
+        };
+
+        const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"];
+        const interactionOptions = { passive: true, once: true };
+        interactionEvents.forEach((eventName) => {
+          window.addEventListener(eventName, triggerLoad, interactionOptions);
+        });
+
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(triggerLoad, { timeout: 2500 });
+          return;
+        }
+
+        window.setTimeout(triggerLoad, 2500);
+      })();
     </script>
     <script type="application/ld+json">
       {
@@ -142,8 +195,58 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="../" aria-label="Voltar para a página inicial">
-          <img alt="" aria-hidden="true" class="brand-logo-image logo-light" src="../assets/images/min-logo-horizontal-light-rc-no-bg.png" />
-          <img alt="" aria-hidden="true" class="brand-logo-image logo-dark" src="../assets/images/min-logo-horizontal-dark-rc-no-bg.png" />
+          <picture>
+            <source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-light-320.avif 320w,
+                ../assets/images/optimized/logo-light-640.avif 640w
+              "
+              type="image/avif"
+            />
+            <source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-light-320.webp 320w,
+                ../assets/images/optimized/logo-light-640.webp 640w
+              "
+              type="image/webp"
+            />
+            <img
+              alt=""
+              aria-hidden="true"
+              class="brand-logo-image logo-light"
+              height="171"
+              src="../assets/images/min-logo-horizontal-light-rc-no-bg.png"
+              width="689"
+            />
+          </picture>
+          <picture>
+            <source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-dark-320.avif 320w,
+                ../assets/images/optimized/logo-dark-640.avif 640w
+              "
+              type="image/avif"
+            />
+            <source
+              sizes="(max-width: 1023px) 40vw, 14rem"
+              srcset="
+                ../assets/images/optimized/logo-dark-320.webp 320w,
+                ../assets/images/optimized/logo-dark-640.webp 640w
+              "
+              type="image/webp"
+            />
+            <img
+              alt=""
+              aria-hidden="true"
+              class="brand-logo-image logo-dark"
+              height="170"
+              src="../assets/images/min-logo-horizontal-dark-rc-no-bg.png"
+              width="700"
+            />
+          </picture>
           <span class="sr-only">Dra. Rafaela Condé | Pacheco &amp; Reis Advogados</span>
         </a>
         <nav aria-label="Navegação principal" class="desktop-nav">
@@ -160,12 +263,16 @@
             Iniciar atendimento
           </a>
           <button aria-label="Alternar tema" class="theme-toggle" id="theme-toggle" type="button">
-            <span class="material-icons-outlined theme-icon theme-icon-dark">dark_mode</span>
-            <span class="material-icons-outlined theme-icon theme-icon-light">light_mode</span>
+            <span class="theme-icon theme-icon-dark" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" /></svg>
+            </span>
+            <span class="theme-icon theme-icon-light" aria-hidden="true">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" /></svg>
+            </span>
           </button>
         </nav>
         <button aria-controls="mobile-nav" aria-expanded="false" aria-label="Abrir menu de navegação" class="mobile-nav-toggle" id="mobile-nav-toggle" type="button">
-          <span class="material-icons-outlined">menu</span>
+          <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
         </button>
       </div>
       <nav aria-label="Navegação mobile" class="mobile-nav" id="mobile-nav">
@@ -205,13 +312,13 @@
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span class="material-icons-outlined">chat</span>
+                  <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-8.5 8.5H4l1.8-3.6A8.5 8.5 0 1 1 21 12Z" /></svg>
                   <span>Falar com a Dra. Rafaela</span>
                 </a>
               </div>
               <a class="page-service-hero-continuation" href="#triagem-detalhada">
                 <span>Role para ver situações atendidas</span>
-                <span aria-hidden="true" class="material-icons-outlined">south</span>
+                <svg aria-hidden="true" class="icon-svg" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
               </a>
             </div>
           </div>
@@ -625,6 +732,6 @@
       <span class="mobile-whatsapp-cta-label">Falar no WhatsApp com a Dra. Rafaela</span>
     </a>
 
-    <script src="../assets/js/main.js?v=20260416-5"></script>
+    <script defer src="../assets/js/main.js?v=20260422-1"></script>
   </body>
 </html>

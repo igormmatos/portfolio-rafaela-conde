@@ -52,6 +52,36 @@
     });
   }
 
+  const initializeWhenIdleOrInteracted = (initializer, timeout = 1400) => {
+    let hasInitialized = false;
+    const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"];
+
+    const runInitializer = () => {
+      if (hasInitialized) {
+        return;
+      }
+
+      hasInitialized = true;
+      interactionEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, runInitializer, interactionListenerOptions);
+      });
+      initializer();
+    };
+
+    const interactionListenerOptions = { passive: true, once: true };
+    interactionEvents.forEach((eventName) => {
+      window.addEventListener(eventName, runInitializer, interactionListenerOptions);
+    });
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(runInitializer, { timeout });
+      return;
+    }
+
+    window.setTimeout(runInitializer, timeout);
+  };
+
+  const initializeDeferredFeatures = () => {
   if (officeAddress && copyAddressButton && copyAddressStatus) {
     const copyAddressLabel = copyAddressButton.querySelector(".contact-address-action-label");
     const defaultCopyAddressLabel =
@@ -209,13 +239,12 @@
         return;
       }
 
-      const startHeight = answer.getBoundingClientRect().height;
-
       if (shouldOpen) {
         details.open = true;
       }
 
-      const endHeight = shouldOpen ? inner.getBoundingClientRect().height : 0;
+      const startHeight = answer.offsetHeight;
+      const endHeight = shouldOpen ? inner.scrollHeight : 0;
 
       answer.dataset.animating = "true";
       setFaqExpandedState(summary, shouldOpen);
@@ -428,6 +457,8 @@
     let currentPage = 0;
     let totalPages = 0;
     let pageStartIndices = [0];
+    let slideOffsets = [0];
+    let trackUpdateFrame = 0;
     let autoplayIntervalId = 0;
     let autoplayResumeTimeoutId = 0;
 
@@ -627,16 +658,29 @@
       });
     };
 
+    const measureSlideOffsets = () => {
+      slideOffsets = testimonialCards.map((card) => card.offsetLeft);
+    };
+
     const updateTrackPosition = () => {
       testimonialCarousel.style.setProperty("--testimonial-slides-per-view", String(slidesPerView));
-      syncTestimonialToggles();
 
       const firstVisibleIndex = pageStartIndices[currentPage] ?? 0;
-      const firstVisibleCard = testimonialCards[firstVisibleIndex];
-      const offset = firstVisibleCard?.offsetLeft ?? 0;
+      const offset = slideOffsets[firstVisibleIndex] ?? 0;
 
       testimonialTrack.style.transform = `translateX(-${offset}px)`;
       updateDots();
+    };
+
+    const scheduleTrackUpdate = () => {
+      if (trackUpdateFrame) {
+        return;
+      }
+
+      trackUpdateFrame = window.requestAnimationFrame(() => {
+        trackUpdateFrame = 0;
+        updateTrackPosition();
+      });
     };
 
     const goToPage = (nextPage) => {
@@ -645,7 +689,7 @@
       }
 
       currentPage = (nextPage + totalPages) % totalPages;
-      updateTrackPosition();
+      scheduleTrackUpdate();
     };
 
     const syncCarouselLayout = () => {
@@ -657,6 +701,8 @@
       currentPage = getNearestPageIndex(previousFirstVisibleIndex);
 
       buildDots();
+      syncTestimonialToggles();
+      measureSlideOffsets();
       updateTrackPosition();
     };
 
@@ -670,7 +716,8 @@
       toggle.addEventListener("click", () => {
         card.classList.toggle("is-expanded");
         syncTestimonialToggle(card, index);
-        updateTrackPosition();
+        measureSlideOffsets();
+        scheduleTrackUpdate();
       });
     });
 
@@ -950,4 +997,8 @@
       openWhatsApp(message);
     });
   }
+
+  };
+
+  initializeWhenIdleOrInteracted(initializeDeferredFeatures);
 })();
