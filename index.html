@@ -46,10 +46,13 @@
       (() => {
         const GA_ID = "G-N1Q726MW35";
         const ICONS_HREF = "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined";
+        const analyticsEnabled = ["rafaelaconde.adv.br", "www.rafaelaconde.adv.br"].includes(window.location.hostname);
+        const contactPage = "home";
+        const directPositions = new Set(["header_desktop","header_mobile","hero","services","traffic_card","contact_section","footer","mobile_fixed"]);
         let didLoad = false;
         window.dataLayer = window.dataLayer || [];
         window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
-        window.gtag("js", new Date());
+        if (analyticsEnabled) window.gtag("js", new Date());
 
         const loadDeferredThirdParties = () => {
           if (didLoad) {
@@ -62,12 +65,12 @@
           iconsLink.href = ICONS_HREF;
           document.head.appendChild(iconsLink);
 
+          if (!analyticsEnabled || window["ga-disable-" + GA_ID] === true) return;
+          // Queue configuration before any custom event, even before gtag.js loads.
+          window.gtag("config", GA_ID, { transport_type: "beacon" });
           const gaScript = document.createElement("script");
           gaScript.async = true;
           gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-          gaScript.onload = () => {
-            window.gtag("config", GA_ID, { transport_type: "beacon" });
-          };
           document.head.appendChild(gaScript);
         };
 
@@ -77,6 +80,28 @@
             window.removeEventListener(eventName, triggerLoad, interactionOptions);
           });
         };
+
+        // Only fixed, allowlisted metadata; never read form values or the link URL.
+        window.trackContactIntent = (position, route) => {
+          if (!analyticsEnabled || window["ga-disable-" + GA_ID] === true) return;
+          if (!((route === "direct" && directPositions.has(position)) ||
+                (route === "form" && position === "contact_form" && contactPage === "home"))) return;
+          try {
+            triggerLoad();
+            window.gtag("event", "contact_intent", {
+              send_to: GA_ID,
+              contact_page: contactPage,
+              cta_position: position,
+              contact_route: route
+            });
+          } catch (_) {
+            // Analytics must not interrupt contact navigation.
+          }
+        };
+        document.addEventListener("click", (event) => {
+          const link = event.target instanceof Element ? event.target.closest("a[data-analytics-cta]") : null;
+          if (link) window.trackContactIntent(link.dataset.analyticsCta, "direct");
+        }, true);
 
         const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"];
         const interactionOptions = { passive: true, once: true };
@@ -175,6 +200,7 @@
           <a class="nav-link" href="#contato">Contato</a>
           <a
             class="btn btn-primary btn-sm"
+            data-analytics-cta="header_desktop"
             href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
             rel="noopener noreferrer"
             target="_blank"
@@ -213,6 +239,7 @@
         <a class="mobile-nav-link" href="#contato">Contato</a>
         <a
           class="btn btn-primary btn-sm mobile-nav-cta"
+          data-analytics-cta="header_mobile"
           href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
           rel="noopener noreferrer"
           target="_blank"
@@ -259,6 +286,7 @@
             <div class="hero-actions">
               <a
                 class="btn btn-lg hero-primary-cta"
+                data-analytics-cta="hero"
                 href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
                 rel="noopener noreferrer"
                 target="_blank"
@@ -434,6 +462,7 @@
           <div class="section-actions">
             <a
               class="btn btn-primary btn-sm"
+              data-analytics-cta="services"
               href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
               rel="noopener noreferrer"
               target="_blank"
@@ -524,6 +553,7 @@
               </ul>
               <a
                 class="btn btn-primary btn-sm"
+                data-analytics-cta="traffic_card"
                 href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20a%20p%C3%A1gina%20de%20Direito%20de%20Tr%C3%A2nsito%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial.%20Documento%20principal%3A%20%5Bnotifica%C3%A7%C3%A3o%2Fauto%2Fdecis%C3%A3o%5D.%20Data%20limite%3A%20%5Bdd%2Fmm%2Faaaa%2C%20se%20houver%5D.%20Resumo%3A%20%5B3%20linhas%5D."
                 rel="noopener noreferrer"
                 target="_blank"
@@ -925,6 +955,7 @@
                       <p class="contact-value">
                         <a
                           class="contact-link"
+                          data-analytics-cta="contact_section"
                           href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
                           rel="noopener noreferrer"
                           target="_blank"
@@ -1159,6 +1190,7 @@
             <h3 class="footer-title">Contato Rápido</h3>
             <a
               class="footer-cta"
+              data-analytics-cta="footer"
               href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
               rel="noopener noreferrer"
               target="_blank"
@@ -1201,6 +1233,7 @@
     <a
       aria-label="Falar no WhatsApp com a Dra. Rafaela"
       class="mobile-whatsapp-cta"
+      data-analytics-cta="mobile_fixed"
       href="https://wa.me/5532998342555?text=Ol%C3%A1.%20Vi%20o%20site%20e%20gostaria%20de%20orienta%C3%A7%C3%A3o%20inicial%20sobre%20%5BTrabalhista%2FTr%C3%A2nsito%5D.%20Resumo%3A%20%5B3%20linhas%5D.%20Prazo%2Furg%C3%AAncia%3A%20%5Bse%20houver%5D."
       rel="noopener noreferrer"
       target="_blank"
@@ -1219,6 +1252,6 @@
       <span class="mobile-whatsapp-cta-label">Falar no WhatsApp com a Dra. Rafaela</span>
     </a>
 
-    <script defer src="assets/js/main.js?v=20260422-1"></script>
+    <script defer src="assets/js/main.js?v=20261124-1"></script>
   </body>
 </html>

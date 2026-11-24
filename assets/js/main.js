@@ -1013,6 +1013,12 @@
         `Resumo: ${values.mensagem}`,
       ].join("\n");
 
+      // Record validated contact intent only; never pass form contents to Analytics.
+      try {
+        window.trackContactIntent?.("contact_form", "form");
+      } catch (_) {
+        // Contact must work even when analytics is unavailable.
+      }
       openWhatsApp(message);
     });
   }
